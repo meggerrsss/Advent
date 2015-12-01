@@ -52,9 +52,9 @@ def down(s):
     for i in range(length) :
         if count == -1:
             basement.append(str(i))
-        elif l[i] == '(':
+        if l[i] == '(':
             count = count+1
-        elif l[i] == ')':
+        if l[i] == ')':
             count = count-1
     print basement[0]
 
