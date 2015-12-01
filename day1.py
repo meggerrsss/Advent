@@ -42,3 +42,21 @@ def match(s):
 
 # match(inpu)
 count(inpu)
+
+
+def down(s):
+    l = list(s)
+    count = 0
+    basement = []
+    length = len(l) #are you happy
+    for i in range(length) :
+        if count == -1:
+            basement.append(str(i))
+        elif l[i] == '(':
+            count = count+1
+        elif l[i] == ')':
+            count = count-1
+    print basement[0]
+
+down(inpu)
+
