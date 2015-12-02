@@ -60,3 +60,22 @@ def down(s):
 
 down(inpu)
 
+
+# Meghan demonstrating that she learned things from Lenny's complaints
+def day1(s):
+    l = list(s)
+    floor = 0
+    instruction = 0
+    basement = []
+    length = len(l)
+    for i in range(length):
+        if floor == -1:
+            basement.append(str(instruction))
+        if l[i] == '(':
+            floor += 1
+        if l[i] == ')':
+            floor -= 1
+        instruction +=1
+    print "Part 1: {0} \nPart 2: {1}".format(floor, basement[0])
+
+day1(inpu)
