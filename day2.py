@@ -9,16 +9,21 @@ def surf(l,w,h):
 
 def order(s):
     packs = s.split()
-    total = 0
+    paper = 0
+    ribbon = 0
     for i in packs:
         dim = i.split('x')
         length = int(dim[0])
         width = int(dim[1])
         height = int(dim[2])
         side = [length*width, width*height, height*length]
-        SA = 2*sum(int(area) for area in side)
-        over = min(side)
-        total += SA + over
-    print total
+        per = [2*(length+width), 2*(width+height), 2*(height+length)]
+        SA = 2*sum(area for area in side)
+        vol = length*width*height
+        overpaper = min(side)
+        around = min(per)
+        paper += SA + overpaper
+        ribbon += vol + around
+    print "Part 1: {0} \nPart 2: {1}".format(paper, ribbon)
 
 order(inp)
