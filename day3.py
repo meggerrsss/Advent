@@ -4,15 +4,13 @@ inp = "^^<<v<<v><v^^<><>^^<v<v^>>^^^><^>v^>v><><><<vv^^<^>^^<v^>v>v^v>>>^<>v<^<v
 
 
 # ideas
-# coordinate system
-# where each ^<>v direction changes either lat or long
-# make a list of these coordinates
 # remove the duplicates - lenny's going to yell at me for this one
 # subtract original list length with sorted list?
 # no that might not keep track of how many times each happens which i'm willing to bet is part two
 # need a second function to determine how many times each house is called
 # scatter plot
 # you can't avoid dictionaries this time, meghan
+# wait i did
 
 import numpy as np
 
@@ -20,7 +18,7 @@ import numpy as np
 def houselist(s):
     l = list(s)
     presents = len(l)
-    houses = np.zeros(presents, 3)
+    houses = np.zeros((presents+1, 3))
     lat = 0
     long = 0
     for i in range(presents):
@@ -32,8 +30,25 @@ def houselist(s):
             long += 1
         elif l[i] == '<':
             long -= 1
-        houses.append(str(lat)+' '+str(long))
-    return houses
+        houses[i+1] = np.array([lat, long, 0])
+    return houses # nx3 matrix with lat, long, and pres.
 
+mat = houselist(inp)
+
+print mat
+print np.shape(mat)
+print len(inp)
+
+
+def multihouse(mat):
+    dim = np.shape(mat) # dimensions of the houses matrix
+    multiplepresents = []
+    for i in range(dim[0]):
+        if mat[i,2]>1:
+            temp = str(mat[i,0])+' '+str(mat[i,1])
+            multiplepresents.append(temp)
+    print multiplepresents
+    print len(multiplepresents)
+    return len(multiplepresents)
 
 
