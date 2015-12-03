@@ -14,19 +14,23 @@ inp = "^^<<v<<v><v^^<><>^^<v<v^>>^^^><^>v^>v><><><<vv^^<^>^^<v^>v>v^v>>>^<>v<^<v
 # scatter plot
 # you can't avoid dictionaries this time, meghan
 
+import numpy as np
+
+
 def houselist(s):
     l = list(s)
-    houses = ['0 0']
+    presents = len(l)
+    houses = np.zeros(presents, 3)
     lat = 0
     long = 0
-    for i in l:
-        if i == '^':
+    for i in range(presents):
+        if l[i] == '^':
             lat += 1
-        elif i == 'v':
+        elif l[i] == 'v':
             lat -= 1
-        elif i == '>':
+        elif l[i] == '>':
             long += 1
-        elif i == '<':
+        elif l[i] == '<':
             long -= 1
         houses.append(str(lat)+' '+str(long))
     return houses
