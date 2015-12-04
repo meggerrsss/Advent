@@ -4,34 +4,20 @@ inp = "bgvyzdsv"
 import hashlib
 
 
-def leadfive(s):
-    return s[0:5] == "00000"
+def leadn(s,n):
+    compare = '0'*n
+    return s[0:n] == compare
 
 
-def leadsix(s):
-    return s[0:6] == "000000"
-
-
-def least5(s):
+def leastn(s,n):
     iter = 0
     blend = s+str(iter)
     m = hashlib.md5(blend).hexdigest()
-    while not leadfive(m):
+    while not leadn(m,n):
         blend = s+str(iter)
         m = hashlib.md5(blend).hexdigest()
         iter+=1
     return iter-1
 
 
-def least6(s):
-    iter = 0
-    blend = s+str(iter)
-    m = hashlib.md5(blend).hexdigest()
-    while not leadsix(m):
-        blend = s+str(iter)
-        m = hashlib.md5(blend).hexdigest()
-        iter+=1
-    return iter-1
-
-
-print "Day 4: \nPart 1: {0} \nPart 2: {1}".format(least5(inp), least6(inp))
+print "Day 4: \nPart 1: {0} \nPart 2: {1}".format(leastn(inp,5), leastn(inp,6))
