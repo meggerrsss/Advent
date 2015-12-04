@@ -24,6 +24,6 @@ def order(s):
         around = min(per)
         paper += SA + overpaper
         ribbon += vol + around
-    print "Part 1: {0} \nPart 2: {1}".format(paper, ribbon)
+    return (paper, ribbon)
 
-order(inp)
+print "Day 2: \nPart 1: {0} \nPart 2: {1}".format(order(inp)[0], order(inp)[1])

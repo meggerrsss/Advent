@@ -15,33 +15,7 @@ def count(s):
             n = n+1
         elif temp == ')':
             m = m+1
-    print n-m
-
-# ignore this it hates me
-def match(s):
-    l = list(s)
-    index = 0
-    while (not all(x==l[0] for x in l)) and (index < len(l)-1):
-        if l[index] == '(' and l[index+1] == ')':
-            l = l[:index] + l[(index+2):]
-        elif l[index] == ')' and l[index+1] == '(':
-            l = l[:index] + l[(index+2):]
-        index = index+1
-    print index
-    print len(l)
-    print l
-    if len(l)==0:
-        print 0
-    elif l[0] == '(':
-        print len(l)
-    elif l[0] == ')':
-        print len(l)*-1
-    else:
-        print "meghan just stop"
-
-
-# match(inpu)
-count(inpu)
+    return n-m
 
 
 def down(s):
@@ -56,9 +30,7 @@ def down(s):
             count = count+1
         if l[i] == ')':
             count = count-1
-    print basement[0]
-
-down(inpu)
+    return basement[0]
 
 
 # Meghan demonstrating that she learned things from Lenny's complaints
@@ -76,6 +48,6 @@ def day1(s):
         if l[i] == ')':
             floor -= 1
         instruction +=1
-    print "Part 1: {0} \nPart 2: {1}".format(floor, basement[0])
+    return (floor, basement[0])
 
-day1(inpu)
+print "Day 1: \nPart 1: {0} \nPart 2: {1}".format(day1(inpu)[0], day1(inpu)[1])

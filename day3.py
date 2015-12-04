@@ -5,7 +5,7 @@ inp = "^^<<v<<v><v^^<><>^^<v<v^>>^^^><^>v^>v><><><<vv^^<^>^^<v^>v>v^v>>>^<>v<^<v
 import numpy as np
 
 
-def houselist(s):
+def matout(s):
     l = list(s)
     presents = len(l)
     houses = np.zeros((presents+1, 3))
@@ -24,7 +24,7 @@ def houselist(s):
     return houses # nx3 matrix with lat, long, and pres.
 
 
-def houselistst(s):
+def houselist(s):
     l = list(s)
     presents = len(l)
     houses = ['0 0']
@@ -42,9 +42,6 @@ def houselistst(s):
         temp = str(lat)+' '+str(long)
         houses.append(temp)
     return set(houses)
-
-
-houselistst(inp)
 
 
 def odds(s):
@@ -69,7 +66,6 @@ def duo(s):
     santaset = houselist(santa)
     roboset = houselist(robo)
     fullset = santaset|roboset
-    print fullset
-    #return fullset
+    return fullset
 
-print duo(inp)
+print "Day 3: \nPart 1: {0} \nPart 2: {1}".format(len(houselist(inp)), len(duo(inp)))
