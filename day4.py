@@ -14,10 +14,10 @@ def leastn(s,n):
     blend = s+str(iter)
     m = hashlib.md5(blend).hexdigest()
     while not leadn(m,n):
-        blend = s+str(iter)
+        iter += 1
+        blend = s + str(iter)
         m = hashlib.md5(blend).hexdigest()
-        iter+=1
-    return iter-1
+    return iter
 
 
 print "Day 4: \nPart 1: {0} \nPart 2: {1}".format(leastn(inp,5), leastn(inp,6))
