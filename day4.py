@@ -8,7 +8,11 @@ def leadfive(s):
     return s[0:5] == "00000"
 
 
-def least(s):
+def leadsix(s):
+    return s[0:6] == "000000"
+
+
+def least5(s):
     iter = 0
     blend = s+str(iter)
     m = hashlib.md5(blend).hexdigest()
@@ -19,5 +23,15 @@ def least(s):
     return iter-1
 
 
-print least(inp)
-#print "Day 4: \nPart 1: {0} \nPart 2: {1}".format(least(inp), )
+def least6(s):
+    iter = 0
+    blend = s+str(iter)
+    m = hashlib.md5(blend).hexdigest()
+    while not leadsix(m):
+        blend = s+str(iter)
+        m = hashlib.md5(blend).hexdigest()
+        iter+=1
+    return iter-1
+
+
+print "Day 4: \nPart 1: {0} \nPart 2: {1}".format(least5(inp), least6(inp))
