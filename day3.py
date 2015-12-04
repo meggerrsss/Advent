@@ -41,7 +41,35 @@ def houselistst(s):
             long -= 1
         temp = str(lat)+' '+str(long)
         houses.append(temp)
-    print len(set(houses))
+    return set(houses)
 
 
 houselistst(inp)
+
+
+def odds(s):
+    li = []
+    for i in range(len(s)):
+        if i%2 == 0:
+            li.append(s[i])
+    return ''.join(li)
+
+
+def evens(s):
+    li = []
+    for i in range(len(s)):
+        if i%2 == 1:
+            li.append(s[i])
+    return ''.join(li)
+
+
+def duo(s):
+    santa = odds(s)
+    robo = evens(s)
+    santaset = houselist(santa)
+    roboset = houselist(robo)
+    fullset = santaset|roboset
+    print fullset
+    #return fullset
+
+print duo(inp)
