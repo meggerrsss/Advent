@@ -7,6 +7,7 @@ inp = f.read()
 f.close()
 
 
+# counts how many vowels appear in a string
 def vowelcount(s):
     count = 0
     for i in s:
@@ -15,6 +16,7 @@ def vowelcount(s):
     return count
 
 
+# determine if there are two double letters side by side
 def doubles(s):
     length = len(s)
     doub = []
@@ -23,10 +25,40 @@ def doubles(s):
             doub.append(s)
     if len(doub) ==0:
         return False
-    elif len(doub) != 0:
+    else:
         return True
 
 
+# determines if a pair of letters appears twice in the string
+def doubledouble(s):
+    if len(s) < 4:
+        return False
+    doub = []
+    for i in range(len(s)-4):
+        sub = s[i:i+2]
+        subtract = s[i+2:]
+        if sub in subtract:
+            doub.append(sub)
+    if len(doub) == 0:
+        return False
+    else:
+        return True
+
+
+# determines if there is a substring of the form 'aba'
+def aba(s):
+    length = len(s)
+    doub = []
+    for i in range(length-2):
+        if s[i] == s[i+2]:
+            doub.append(s)
+    if len(doub) == 0:
+        return False
+    else:
+        return True
+
+
+# determines if a given "bad" substring appears anywhere in a string
 def badsubstring(s):
     unallowed = ['ab', 'cd', 'pq', 'xy']
     if unallowed[0] in s or unallowed[1] in s or unallowed[2] in s or unallowed[3] in s:
@@ -35,46 +67,73 @@ def badsubstring(s):
         return False
 
 
-def nice(s):
-    if badsubstring(s):
-        return False
-    elif vowelcount(s) >= 3 and doubles(s):
-        return True
-    else:
-        return False
+# using either part 1 rules or part 2, determines if a string is 'nice'
+def nice(s,r):
+    if r == 0:
+        if badsubstring(s):
+            return False
+        elif vowelcount(s) >= 3 and doubles(s):
+            return True
+        else:
+            return False
+    if r == 1:
+        if doubledouble(s) and aba(s):
+            return True
+        else:
+            return False
 
 
-def count(s):
+# counts how many 'nice' strings appear in a larger string (with whitespace)
+def count(s,r):
     l = s.split()
     nicelist = []
     naughtylist = []
     for i in l:
-        if nice(i):
+        if nice(i,r):
             nicelist.append(i)
         else:
             naughtylist.append(i)
     amountnice = len(nicelist)
-    amountnaughty = len(naughtylist)
     return amountnice
 
 
-print count(inp)
+print count(inp,0)
+print count(inp,1)
 
 
-#test cases
+# test cases - way too many test cases
 def test_answer():
-    testlist = ['aei', 'xazegov', 'aeiouaeiouaeiou', 'xx', 'abcdde', 'aabbccdd', 'ugknbfddgicrmopn', 'aaa', 'jchzalrnumimnmhp', 'haegwjzuvuyypxyu', 'dvszwmarrgswjxmb']
-    vowelcountlist = [3, 3, 15, 0, 2, 2, 3, 3, 3, 5, 1]
-    doubleslist = [False, False, False, True, True, True, True, True, False, True, True]
-    badsubstringlist = [False, False, False, False, True, True, False, False, False, True, False]
-    nicelist = [False, False, False, False, False, False, True, True, False, False, False]
-    countlist = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0]
+    testlist = ['aei','xazegov','aeiouaeiouaeiou','xx','abcdde','aabbccdd','ugknbfddgicrmopn','aaa','jchzalrnumimnmhp','haegwjzuvuyypxyu','dvszwmarrgswjxmb',
+                'xyxy','aabcdefgaa','xyx','abcdefeghi','qjhvhtzxzqqjkmpb','xxyxx','uurcxstgmygtbstg','ieodomkazucvgmuy']
+    vowelcountlist = [3, 3, 15, 0, 2, 2, 3, 3, 3, 5, 1,
+                      0, 5, 0, 4, 0, 0, 2, 7]
+    doubleslist = [False, False, False, True, True, True, True, True, False, True, True,
+                   False, True, False, False, True, True, True, False]
+    doubledoublelist = [False, False, True, False, False, False, False, False, False, False, False,
+                        False, True, False, False, True, True, True, False]
+    abalist = [False, False, False, False, False, False, False, True, True, True, False,
+               True, False, True, True, True, True, False, True]
+    badsubstringlist = [False, False, False, False, True, True, False, False, False, True, False,
+                        True, True, True, True, False, True, False, False]
+    nicelist0 = [False, False, False, False, False, False, True, True, False, False, False,
+                 False, False, False, False, False, False, False, False]
+    nicelist1 = [False, False, False, False, False, False, False, False, False, False, False,
+                 False, False, False, False, True, True, False, False]
+    countlist0 = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+                  0, 0, 0, 0, 0, 0, 0, 0]
+    countlist1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                  0, 0, 0, 0, 1, 1, 0, 0]
     for n in range(len(testlist)):
-        #assert function(testlist[n]) = functionlist[n]
+        # assert function(testlist[n]) = functionlist[n]
         assert vowelcount(testlist[n]) == vowelcountlist[n]
         assert doubles(testlist[n]) == doubleslist[n]
+        assert doubledouble(testlist[n]) == doubledoublelist[n]
+        assert aba(testlist[n]) == abalist[n]
         assert badsubstring(testlist[n]) == badsubstringlist[n]
-        assert nice(testlist[n]) == nicelist[n]
-        assert count(testlist[n]) == countlist[n]
+        assert nice(testlist[n],0) == nicelist0[n]
+        assert nice(testlist[n],1) == nicelist1[n]
+        assert count(testlist[n],0) == countlist0[n]
+        assert count(testlist[n],1) == countlist1[n]
+        assert count(inp,0) == 238
 
 test_answer()
