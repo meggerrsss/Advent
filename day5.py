@@ -23,7 +23,7 @@ def doubles(s):
     for i in range(length-1):
         if s[i] == s[i+1]:
             doub.append(s)
-    if len(doub) ==0:
+    if len(doub) == 0:
         return False
     else:
         return True
@@ -31,18 +31,19 @@ def doubles(s):
 
 # determines if a pair of letters appears twice in the string
 def doubledouble(s):
+    doub = []
     if len(s) < 4:
         return False
-    doub = []
-    for i in range(len(s)-4):
-        sub = s[i:i+2]
-        subtract = s[i+2:]
-        if sub in subtract:
-            doub.append(sub)
-    if len(doub) == 0:
-        return False
     else:
-        return True
+        for i in range(len(s)-2):
+            sub = s[i:i+2]
+            subtract = s[i+2:]
+            if sub in subtract:
+                doub.append(sub)
+        if len(doub) == 0:
+            return False
+        else:
+            return True
 
 
 # determines if there is a substring of the form 'aba'
@@ -97,32 +98,31 @@ def count(s,r):
     return amountnice
 
 
-print count(inp,0)
-print count(inp,1)
+print "Day 5: \nPart 1: {0} \nPart 2: {1}".format(count(inp,0), count(inp,1))
 
 
-# test cases - way too many test cases
+# test cases - way too many test cases - stop letting me write test cases
 def test_answer():
     testlist = ['aei','xazegov','aeiouaeiouaeiou','xx','abcdde','aabbccdd','ugknbfddgicrmopn','aaa','jchzalrnumimnmhp','haegwjzuvuyypxyu','dvszwmarrgswjxmb',
-                'xyxy','aabcdefgaa','xyx','abcdefeghi','qjhvhtzxzqqjkmpb','xxyxx','uurcxstgmygtbstg','ieodomkazucvgmuy']
+                'xyxy','aabcdefgaa','xyx','abcdefeghi','qjhvhtzxzqqjkmpb','xxyxx','uurcxstgmygtbstg','ieodomkazucvgmuy', '0123456789abab']
     vowelcountlist = [3, 3, 15, 0, 2, 2, 3, 3, 3, 5, 1,
-                      0, 5, 0, 4, 0, 0, 2, 7]
+                      0, 5, 0, 4, 0, 0, 2, 7, 2]
     doubleslist = [False, False, False, True, True, True, True, True, False, True, True,
-                   False, True, False, False, True, True, True, False]
+                   False, True, False, False, True, True, True, False, False]
     doubledoublelist = [False, False, True, False, False, False, False, False, False, False, False,
-                        False, True, False, False, True, True, True, False]
+                        True, True, False, False, True, True, True, False, True]
     abalist = [False, False, False, False, False, False, False, True, True, True, False,
-               True, False, True, True, True, True, False, True]
+               True, False, True, True, True, True, False, True, True]
     badsubstringlist = [False, False, False, False, True, True, False, False, False, True, False,
-                        True, True, True, True, False, True, False, False]
+                        True, True, True, True, False, True, False, False, True]
     nicelist0 = [False, False, False, False, False, False, True, True, False, False, False,
-                 False, False, False, False, False, False, False, False]
+                 False, False, False, False, False, False, False, False, False]
     nicelist1 = [False, False, False, False, False, False, False, False, False, False, False,
-                 False, False, False, False, True, True, False, False]
+                 True, False, False, False, True, True, False, False, True]
     countlist0 = [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
-                  0, 0, 0, 0, 0, 0, 0, 0]
+                  0, 0, 0, 0, 0, 0, 0, 0, 0]
     countlist1 = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                  0, 0, 0, 0, 1, 1, 0, 0]
+                  1, 0, 0, 0, 1, 1, 0, 0, 1]
     for n in range(len(testlist)):
         # assert function(testlist[n]) = functionlist[n]
         assert vowelcount(testlist[n]) == vowelcountlist[n]
@@ -134,6 +134,7 @@ def test_answer():
         assert nice(testlist[n],1) == nicelist1[n]
         assert count(testlist[n],0) == countlist0[n]
         assert count(testlist[n],1) == countlist1[n]
+        assert count(inp,0) == 238
         assert count(inp,0) == 238
 
 test_answer()
