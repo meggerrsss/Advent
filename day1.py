@@ -48,12 +48,12 @@ def day1(s):
         if l[i] == ')':
             floor -= 1
         if floor == -1:
-            basement.append(str(instruction))
+            basement.append(str(instruction+1))
         instruction +=1
     if basement == []:
         x = "Always above ground"
     else:
-        x = int(basement[0])+1
+        x = int(basement[0])
     return (floor, x)
 
 print "Day 1: \nPart 1: {0} \nPart 2: {1}".format(day1(inp)[0], day1(inp)[1])
