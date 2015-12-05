@@ -1,7 +1,8 @@
 __author__ = 'Meghan'
 
 import numpy as np
-import pytest
+
+# http://adventofcode.com/day/3
 
 f = open('day3.txt', 'r')
 inp = f.read()
@@ -73,14 +74,13 @@ def duo(s):
 
 print "Day 3: \nPart 1: {0} \nPart 2: {1}".format(len(houselist(inp)), len(duo(inp)))
 
+
 # test cases
-t1 = ">"
-t2 = "^>v<"
-t3 = "^v^v^v^v^v"
-t4 = "^v"
-
-
 def test_answer():
+    t1 = ">"
+    t2 = "^>v<"
+    t3 = "^v^v^v^v^v"
+    t4 = "^v"
     assert len(houselist(t1)) == 2
     assert len(houselist(t2)) == 4
     assert len(houselist(t3)) == 2
