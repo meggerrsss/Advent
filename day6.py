@@ -1,5 +1,8 @@
 __author__ = 'Meghan'
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 f = open('day6.txt', 'r')
 inp = f.read()
 f.close()
@@ -57,7 +60,14 @@ def main(s,r):
         for posx in range(x1,x2+1):
             for posy in range(y1,y2+1):
                 grid[posx][posy] = switch(instlist[0],grid[posx][posy],r)
-    sous = count(grid)
-    return sous
+    return grid
 
-print "Day 6: \nPart 1: {0} \nPart 2: {1}".format(main(inp,0),main(inp,1))
+print "Day 6: \nPart 1: {0} \nPart 2: {1}".format(count(main(inp,0)),count(main(inp,1)))
+
+grid = np.array(main(inp,1))
+x = range(1000)
+y = range(1000)
+x, y = np.meshgrid(x, y)
+plt.pcolormesh(x, y, grid)
+plt.colorbar()
+plt.show()
