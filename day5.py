@@ -138,3 +138,7 @@ def test_answer():
         assert count(inp,0) == 238
 
 test_answer()
+
+testname = ['meghanleighgreen']
+for i in testname:
+    print i + ' ' + str(count(i,0)) + ' ' + str(count(i,1))+'\n'
