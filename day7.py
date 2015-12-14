@@ -96,6 +96,23 @@ def make(s, d):
         return d
 
 
+def reorderinsts(s, chars, outorder):
+    rest = ''
+    l = s.split('\n')
+    if len(l)>0:
+        for i in l:
+            inst = i.split()
+            if not inst == []:
+                out = inst[len(inst)-1]
+                a = findinputs(i)[0]
+                b = findinputs(i)[1]
+                if a.isdigit() or (a in chars and b in chars):
+                    chars.append(out)
+                    outorder += '\n'+i
+                else:
+                    rest += '\n'+i
+        reorderinsts(rest, chars, outorder)
+    else:
+        return outorder
 
-
-print make(inp,{})
+reorderinsts(inp,[],'')
