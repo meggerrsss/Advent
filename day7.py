@@ -1,7 +1,7 @@
 __author__ = 'Meghan'
 
 f = open('day7.txt', 'r')
-input = f.read()
+inp = f.read()
 f.close()
 
 signals = {}
@@ -63,15 +63,16 @@ def tangle(i,d):
 
 def findinputs(s):
     i = s.split()
-    if i[1] == '->':
-        a = i[0]
-        b = i[0]
-    elif i[2] == '->':
-        a = i[1]
-        b = i[1]
-    else:# i[3] == '->':
-        a = i[0]
+    a = i[2]
+    if len(i)<4:
         b = i[2]
+    elif i[2] == 'NOT':
+        a = i[3]
+        b = i[3]
+    elif len(i)>4:
+        b = i[4]
+    else:
+        b=a
     return [a,b]
 
 
@@ -131,3 +132,35 @@ def sortthething(s):
 
 
 newinp = sortthething(inp)
+
+def net(s):
+    d = {}
+    l = s.split('\n')
+    newl = l[1:]
+    for i in newl:
+        if not i == []:
+            inst = i.split()
+            out = inst[0]
+            aaa = findinputs(i)[0]
+            bbb = findinputs(i)[1]
+            if aaa.isdigit():
+                d[aaa] = aaa
+            if bbb.isdigit():
+                d[bbb] = bbb
+            if len(inst) == 3:
+                d[out] = d[aaa]
+            elif inst[2] == "NOT":
+                d[out] = ~ d[aaa]
+            elif inst[3] == "AND":
+                d[out] = d[aaa] & d[bbb]
+            elif inst[3] == "OR":
+                d[out] = d[aaa] | d[bbb]
+            elif inst[3] == "LSHIPT":
+                d[out] = d[aaa] << d[bbb]
+            elif inst[3] == "RSHIFT":
+                d[out] = d[aaa] >> d[bbb]
+        print d
+    return d
+
+print net(newinp)
+
