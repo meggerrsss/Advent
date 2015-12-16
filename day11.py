@@ -45,7 +45,7 @@ def runthree(s):
     l = list(s)
     lbools = []
     for i in range(len(l)-2):
-        for j in range(len(order)):
+        for j in range(len(order)-2):
             a = order[j]
             b = nextletter(a)
             c = nextletter(b)
@@ -100,8 +100,6 @@ def nextpass(s):
         both = runthree(input) and doubledouble(input)
     return input
 
-
-print nextpass(inp)
-
-
-#print "Day 11: \nPart 1: {0} \nPart 2: {1}".format()
+a = nextpass(inp)
+b = nextpass(nextword(a))
+print "Day 11: \nPart 1: {0} \nPart 2: {1}".format(a,b)
