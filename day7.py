@@ -4,6 +4,9 @@ f = open('day7.txt', 'r')
 inp = f.read()
 f.close()
 
+f = open('day7mod.txt', 'r')
+inp2 = f.read()
+f.close()
 
 def findinputs(s):
     i = s.split()
@@ -30,6 +33,7 @@ def sortthething(s):
     return new
 
 newinp = sortthething(inp)
+newinp2 = sortthething(inp2)
 
 
 def net(s):
@@ -54,14 +58,14 @@ def net(s):
             if inst[2] == "NOT":
                 d[out] = ~ d[aaa]
             if inst[3] == "AND":
-                d[out] = d[aaa] & d[bbb] #changing to two cases, one with isdigit and one with two characters
+                d[out] = d[aaa] & d[bbb]
             if inst[3] == "OR":
-                d[out] = d[aaa] | d[bbb] #also also change
+                d[out] = d[aaa] | d[bbb]
             if inst[3] == "LSHIFT":
                 d[out] = d[aaa] << int(bbb)
             if inst[3] == "RSHIFT":
                 d[out] = d[aaa] >> int(bbb)
     return d
 
-print net(newinp)
+print "Day 7: \nPart 1: {0} \nPart 2: {1}".format(net(newinp)['a'], net(newinp2)['a'])
 
