@@ -40,7 +40,7 @@ def best():
         dsums[i] = dis
     return [min(dsums),max(dsums)]
 
-print "Day 8: \nPart 1: {0} \nPart 2: {1}".format(best()[0],best()[1])
+print "Day 9: \nPart 1: {0} \nPart 2: {1}".format(best()[0],best()[1])
 
 
 
