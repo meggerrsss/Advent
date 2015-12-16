@@ -38,9 +38,9 @@ def best():
         for citynumber in range(len(order)-1): #iterating over cities within permutation
             dis += dist(order[citynumber],order[citynumber+1])
         dsums[i] = dis
-    return min(dsums)
+    return [min(dsums),max(dsums)]
 
-print best()
+print "Day 8: \nPart 1: {0} \nPart 2: {1}".format(best()[0],best()[1])
 
 
 
