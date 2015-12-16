@@ -13,7 +13,7 @@ def nextletter(s):
             return two[i]
 
 
-def nextword(s):
+def nextword2(s):
     new = list(s)
     length = len(s)
     new[length-1] = nextletter(new[length-1])
@@ -37,9 +37,18 @@ def nextword(s):
         outst = ''.join(new)
         return outst
 
-#testlist = ['y','z','ay','az','zz','azy','azz','azzy','azzz','azzzy','azzzz','azzzzy','azzzzz','azzzzzy','azzzzzz','azzzzzzy','azzzzzzz','zzzzzzzz']
-#for i in testlist:
-#    print i +' -> '+nextword(i)
+
+def nextword(s): #because Lenny would probably yell at me if I used the function above
+    length = len(s)
+    new = ''
+    if all(i=='z' for i in s):
+        return 'a'*(length+1)
+    if s[-1] == 'z':
+        new = nextword(s[:-1]) + 'a'
+    else:
+        new = s[:-1] + nextletter(s[-1])
+    return new
+
 
 def runthree(s):
     l = list(s)
@@ -67,7 +76,6 @@ def doubles(s):
                 indexdouble.append(i)
         if len(doub)>=1:
             firstremoved = (s[:indexdouble[0]],s[indexdouble[0]+2:])
-            #print firstremoved
         else:
             firstremoved = 'Er'
     return (not len(doub) == 0, firstremoved)
@@ -85,9 +93,6 @@ def doubledouble(s):
         new2 = doubles(s)[1][1]
         cond[1] = doubles(new1)[0] or doubles(new2)[0]
         return all(cond)
-
-
-#print doubles('hcpxxxyz'), doubles('hcpxyz')
 
 
 def nextpass(s):
