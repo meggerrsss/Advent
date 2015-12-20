@@ -1,7 +1,6 @@
 __author__ = 'Meghan'
 
 import itertools
-import numpy
 
 f = open('day13.txt', 'r')
 inp = f.read()
