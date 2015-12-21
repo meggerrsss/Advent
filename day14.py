@@ -61,25 +61,13 @@ def furthest(s,t):
 
 def points(s,t):
     point = [0]*9
-    for i in range(t):
+    for i in range(1,t):
         poses = furthest(s,i)
         far = max(poses)
-        print poses,far
         for deer in range(len(poses)):
             if poses[deer] == far:
                 point[deer] += 1
     return point
 
 
-
-print points(inp,100)
-
-print max(furthest(inp,2503))#,  #points(inp, 2503)
-
-
-
-
-s = "Vixen can fly 18 km/s for 5 seconds, but then must rest for 84 seconds."
-
-
-#print "Day 14: \nPart 1: {0} \nPart 2: {1}".format(a,b)
+print "Day 14: \nPart 1: {0} \nPart 2: {1}".format(max(furthest(inp,2503)), max(points(inp, 2503)))
