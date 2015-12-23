@@ -1,6 +1,6 @@
 __author__ = 'Meghan'
 
-f = open('day15.txt', 'r')
+f = open('Input files\day15.txt', 'r')
 inp = f.read()
 f.close()
 
@@ -60,11 +60,9 @@ def best(s,r):
     for a in range(0,100+1):
         for b in range(0,100-a+1):
             for c in range(0,100-a-b+1):
-                for d in range(0,100-a-b-c+1):
-                    if a+b+c+d==100:
-                        score = candyscore(mat, a, b, c, d, r)
-                        if score >0:
-                            scores.append(score)
+                score = candyscore(mat, a, b, c, 100-a-b-c, r)
+                if score >0:
+                    scores.append(score)
     return scores
 
 
