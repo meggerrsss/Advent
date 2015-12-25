@@ -34,21 +34,29 @@ def make(s):
 
 def match(l,r):
     lis = l
+    l2 = range(1,501)
+    notin = []
     for prop in thesue.keys():
         for sue in l:
             if r == 1 and prop in sue and not thesue[prop] == sue[prop]:
                 lis.remove(sue)
+                l2.remove(sue['number'])
+                notin.append(sue['number'])
             if r == 2 and prop in sue:
                 if prop == 'cats' or prop == 'trees':
                     if not thesue[prop] < sue[prop]:
                         lis.remove(sue)
+                        l2.remove(sue['number'])
+                        notin.append(sue['number'])
                 elif prop == 'pomeranians' or prop == 'goldfish':
                     if not thesue[prop] > sue[prop]:
                         lis.remove(sue)
-    return lis
+                        l2.remove(sue['number'])
+                        notin.append(sue['number'])
+    return l2
 
 
-print match(make(inp),1)#, match(make(inp),2)
+print match(make(inp),1), match(make(inp),2)
 
 
 #print "Day 15: \nPart 1: {0} \nPart 2: {1}".format(max(best(inp,1)), max(best(inp,2)))
