@@ -82,4 +82,4 @@ def part2():
             if (all(match2(c, int(v)) for c, v in attributes)):
                 return (sue, attributes)
 
-print "Day 15: \nPart 1: {0} \nPart 2: {1}".format(part1(), part2())
+print "Day 16: \nPart 1: {0} \nPart 2: {1}".format(part1(), part2())
