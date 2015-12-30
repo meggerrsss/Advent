@@ -2,18 +2,19 @@ __author__ = 'Meghan'
 
 import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import animation
 
 f = open('day18.txt', 'r')
 inp = f.read()
 f.close()
 
 
-def blankgrid(n,m): # n is number of rows, m is number of columns, from day 6
+def blankgrid(n, m): # n is number of rows, m is number of columns, from day 6
     grid = [[0 for j in xrange(m)] for i in xrange(n)]
     return grid
 
 
-def initgrid(s, n,m):
+def initgrid(s, n, m):
     grid = blankgrid(n,m)
     l = s.split('\n')
     for i in range(n):
@@ -36,10 +37,10 @@ def numgrid(grid):
 def count(mat): # from day 6
     size = (len(mat),len(mat[0])) # i,j
     tally = 0
-    for i in range(size[1]):
-        for j in range(size[0]):
-            if mat[i][j] == "#" or mat[i][j] == "1":
-                tally += sum(mat[i])
+    for i in range(size[0]):
+        for j in range(size[1]):
+            if mat[i][j] == 1:
+                tally += 1
     return tally
 
 
@@ -70,12 +71,9 @@ def neighbourson(grid, lat, long):
     count = 0
     l = neighbours(grid, lat, long)
     for i in l:
-        if i == "#" or i == "1":
+        if i == "#" or i == 1:
             count +=1
     return l, count
-
-
-
 
 
 def switch(grid):
@@ -95,16 +93,18 @@ def switch(grid):
 
 
 def iterswitch(grid,n):
+    time = [grid]
     while n>0:
         new = switch(grid)
-        n -=1
+        time.append(new)
         grid = new
+        n -= 1
     return grid
 
 
 grid = numgrid(initgrid(inp,100,100))
 print neighbourson(grid,10,10)[1]
-print iterswitch(grid,1)
+print count(iterswitch(grid,100))
 
 #print "Day 18: \nPart 1: {0} \nPart 2: {1}".format("1","2")
 
