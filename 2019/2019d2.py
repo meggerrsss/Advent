@@ -11,26 +11,39 @@ def form(st):
 linp = form(inp)
 
 
-import math 
-def thing(li):
-    ncodes = math.ceil(len(li)/4)
-    for i in range(ncodes):
-        print(i)
+for i in range(ncodes):
+        #print(i)
         instructpos = 4*i
-        print(instructpos)
-        print(li[instructpos])
+        #print(instructpos)
+        #print(li[instructpos])
         if li[instructpos] == 99:
-            return linp
+            break
         elif li[instructpos] == 1:
-            return "add"
+            #print("add")
+            li[li[instructpos+3]] = li[li[instructpos+1]]+li[li[instructpos+2]]
         elif li[instructpos] == 2:
-            return "multiply"
+            #print("multiply")
+            li[li[instructpos+3]] = li[li[instructpos+1]]*li[li[instructpos+2]]
         else: 
             return "no correct instruction"
-            
-print(thing(linp))
+    return li        
+#print(thing(linp))
 
 
 #tests
 t1 = "1,9,10,3,2,3,11,0,99,30,40,50"
-t1b = form(t1)
+assert(thing(form(t1))==form("3500,9,10,70,2,3,11,0,99,30,40,50"))
+t2 = "1,0,0,0,99" #2,0,0,0,99
+assert(thing(form(t2))==form("2,0,0,0,99"))
+t3 = "2,3,0,3,99" #2,3,0,6,99
+assert(thing(form(t3))==form("2,3,0,6,99"))
+t4 = "2,4,4,5,99,0" #2,4,4,5,99,9801
+assert(thing(form(t4))==form("2,4,4,5,99,9801"))
+t5 = "1,1,1,4,99,5,6,0,99" #30,1,1,4,2,5,6,0,99
+assert(thing(form(t5))==form("30,1,1,4,2,5,6,0,99"))
+
+print(linp)
+linp[1]=12
+linp[2]=2
+print(linp)
+print(thing(linp))
