@@ -32,7 +32,25 @@ def thing(li): # doing the list instructions, outputs list
             return "no correct instruction"
     return li
     
-#print(thing(linp))
+    
+def thing2(li): # trying to be more general, based off of lenny's answer
+    i = 0
+    while i < len(li):
+        if li[i] == 99:
+            break
+        elif li[i] == 1:
+            #print("add")
+            li[li[i+3]] = li[li[i+1]]+li[li[i+2]]
+            i += 4
+        elif li[i] == 2:
+            #print("multiply")
+            li[li[i+3]] = li[li[i+1]]*li[li[i+2]]
+            i += 4
+        else: 
+            return "no correct instruction"
+    return li[0]
+    
+
 
 
 #p1 tests
@@ -67,7 +85,7 @@ def findoutput(lis,out):
             #print(new)
             #print(thing(new))
             maybe = stupid(thing(new))
-            print("{0},{1},{2}".format(n,v,maybe))
+            #print("{0},{1},{2}".format(n,v,maybe))
             if maybe == out:
                 noun = n 
                 verb = v
@@ -76,18 +94,10 @@ def findoutput(lis,out):
     
 
 #confirming answer to #1
-#assert(stupid(thing(adjust(linp,12,2)))==3101844)
-
-print(findoutput(backup,19690720))
+assert(stupid(thing(adjust(linp,12,2)))==3101844)
+#confirming answer to #1 using generalized format
+assert(thing2(adjust(linp,12,2))==3101844)
+#confirming answer to #2
+assert(findoutput(linp,19690720)==8478)
 
     
-
-    
-#p1 show your work
-#print(linp)
-#a1 = adjust(linp,12,2)
-#linp[1]=12
-#linp[2]=2
-#print(linp)
-#print(a1==linp)
-#print(thing(linp))
