@@ -4,15 +4,16 @@ inp = "1,0,0,3,1,1,2,3,1,3,4,3,1,5,0,3,2,6,1,19,1,5,19,23,2,9,23,27,1,6,27,31,1,
 
 import math 
 
-def form(st):
+def form(st): # changing string list to list of int
     linp = str.split(st,",")
     for i in range(0, len(linp)): 
         linp[i] = int(linp[i]) 
     return(linp)
 
 linp = form(inp)
+backup = linp
 
-def thing(li):
+def thing(li): # doing the list instructions, outputs list
     ncodes = math.ceil(len(li)/4)
     for i in range(ncodes):
         #print(i)
@@ -48,24 +49,43 @@ assert(thing(form(t5))==form("30,1,1,4,2,5,6,0,99"))
 
 
 #apparently part 2 wants the output to be list[0], after giving explicit tests in part 1 for the output to be a list, so, here's a function
-def stupid(lis):
+def stupid(lis): #outputs first thing in list
     return lis[0]
 
+
 def adjust(lis,a,b):    # a is "noun" and b is "verb" despite the fact that the instruction should be the verb
-    lis[1] = a 
-    lis[2] = b
-    return lis 
+    return [lis[0]]+[a]+[b]+lis[3:]
+
+
+def findoutput(lis,out):
+    noun = 0
+    verb = 0 
+    for n in range(0,10):
+        for v in range(0,10):
+            #print(lis)
+            new = adjust(lis,n,v)
+            #print(new)
+            #print(thing(new))
+            if stupid(thing(new)) == out:
+                noun = n 
+                verb = v
+                break
+    return 100*noun+verb      
     
-#def findoutput(lis,a,b,out):
-#    for n in range(0,100):
-#        break
-#    return lis
+
+#confirming answer to #1
+#assert(stupid(thing(adjust(linp,12,2)))==3101844)
+
+print(findoutput(backup,19690720))
+
     
-#print range(0,100)
+
     
 #p1 show your work
 #print(linp)
+#a1 = adjust(linp,12,2)
 #linp[1]=12
 #linp[2]=2
 #print(linp)
+#print(a1==linp)
 #print(thing(linp))
