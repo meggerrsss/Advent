@@ -60,13 +60,15 @@ def adjust(lis,a,b):    # a is "noun" and b is "verb" despite the fact that the 
 def findoutput(lis,out):
     noun = 0
     verb = 0 
-    for n in range(0,10):
-        for v in range(0,10):
+    for n in range(0,100):
+        for v in range(0,100):
             #print(lis)
             new = adjust(lis,n,v)
             #print(new)
             #print(thing(new))
-            if stupid(thing(new)) == out:
+            maybe = stupid(thing(new))
+            print("{0},{1},{2}".format(n,v,maybe))
+            if maybe == out:
                 noun = n 
                 verb = v
                 break
