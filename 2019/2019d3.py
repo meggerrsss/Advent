@@ -10,11 +10,33 @@ def form(st): #string to list of list of strings
     return li
 #print(form(inp))
 
-
-
-
+def maxgridsize(li):
+    nwires = len(li)
+    U = [0]*nwires
+    D = [0]*nwires
+    L = [0]*nwires
+    R = [0]*nwires
+    for wire in range(nwires):
+        for instr in li[wire]:
+            if instr[0]=="U":
+                U[wire]+=int(instr[1:])
+            elif instr[0]=="D":
+                D[wire]+=int(instr[1:])
+            elif instr[0]=="L":
+                L[wire]+=int(instr[1:])
+            elif instr[0]=="R":
+                R[wire]+=int(instr[1:])
+            else: 
+                print("wrong direction")
+    return U,D,L,R
+    
 t0="""R8,U5,L5,D3
-U7,R6,D4,L4""" #6
+U7,R6,D4,L4""" #6           
+print(maxgridsize(form(t0)))
+
+
+
+
 t1="""R75,D30,R83,U83,L12,D49,R71,U7,L72
 U62,R66,U55,R34,D71,R55,D58,R83""" #159
 t2 = """R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
