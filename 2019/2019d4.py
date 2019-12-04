@@ -2,7 +2,6 @@
 
 inp = "109165-576723"
 passrange = [int(i) for i in inp.split("-")] #inclusive or exclusive, unclear
-print(passrange)
 
 def valid(rr):
     lower = rr[0]
@@ -21,26 +20,28 @@ def valid(rr):
                     fair.append(maybe)
     return len(fair)
 
+def possible(s): # checking for single numbers from int -> bool
+    test1 = str(s)[0] == str(s)[1] or str(s)[1] == str(s)[2] or str(s)[2] == str(s)[3] or str(s)[3] == str(s)[4] or str(s)[4] == str(s)[5]
+    if test1:
+        test2 = int(str(s)[0]) <= int(str(s)[1]) and int(str(s)[1]) <= int(str(s)[2]) and int(str(s)[2]) <= int(str(s)[3]) and int(str(s)[3]) <= int(str(s)[4]) and int(str(s)[4]) <= int(str(s)[5])
+        unit = 0
+        if test2:
+            for d in str(s):
+                if str(s).count(d) == 2:
+                    unit+=1
+            if unit>0:
+                return True  
 
-print(valid(passrange))
+def allpass(rr): # collecting from possible(s)
+    li = []
+    for maybe in range(rr[0],rr[1]+1):
+        if possible(maybe):
+            li.append(maybe)
+    return len(li)
 
-
-#tblob = "123445"
-#for i in tblob:
-#    print(tblob.count(i))
-
-#s = []
-maybe = 111111
-#print(str(maybe).count("1"))
-#print(str(maybe)[0] == str(maybe)[1] or str(maybe)[1] == str(maybe)[2] or str(maybe)[2] == str(maybe)[3] or str(maybe)[3] == str(maybe)[4] or str(maybe)[4] == str(maybe)[5])
-#print(int(str(maybe)[0]) <= int(str(maybe)[1]) and int(str(maybe)[1]) <= int(str(maybe)[2]) and int(str(maybe)[2]) <= int(str(maybe)[3]) and int(str(maybe)[3]) <= int(str(maybe)[4]) and int(str(maybe)[4]) <= int(str(maybe)[5]))
-#s.append(maybe)
-#print(s)
-#print(int(str(maybe)[0]))
 
 # part 1, assert won't be valid after part 2 edits
 # assert(valid(passrange)==2814)
 
-#part 2 is not 1678
 # part 2, 
 # assert(valid(passrange)==1991)
