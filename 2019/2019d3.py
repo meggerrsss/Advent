@@ -36,40 +36,55 @@ def wherebeen(vects):
     ypos = 0
     d = {(0,0):"s"}
     for i in range(len(vects)):
-        print(i)
-        print(vects[i][0])
-        if vects[i][0] == "U":
-            ypos += int(vects[i][1:])
-            print((xpos,ypos))
-            if (xpos,ypos) not in d:
-                d[(xpos,ypos)] = "v"
-            elif (xpos,ypos) in d and d[(xpos,ypos)] == "h":
-                d[(xpos,ypos)] = "x"
-        elif vects[i][0] == "D":
-            ypos -= int(vects[i][1:])
-            print((xpos,ypos))
-            if (xpos,ypos) not in d:
-                d[(xpos,ypos)] = "v"
-            elif (xpos,ypos) in d and d[(xpos,ypos)] == "h":
-                d[(xpos,ypos)] = "x"
-        elif vects[i][0] == "R":
-            xpos += int(vects[i][1:])
-            print((xpos,ypos))
-            if (xpos,ypos) not in d:
-                d[(xpos,ypos)] = "h"
-            elif (xpos,ypos) in d and d[(xpos,ypos)] == "v":
-                d[(xpos,ypos)] = "x"
-        elif vects[i][0] == "L":
-            xpos -= int(vects[i][1:])
-            print((xpos,ypos))
-            if (xpos,ypos) not in d:
-                d[(xpos,ypos)] = "h"
-            elif (xpos,ypos) in d and d[(xpos,ypos)] == "v":
-                d[(xpos,ypos)] = "x"
+        #print(i)
+        #print(vects[i][0])
+        move = int(vects[i][1:])
+        for j in range(1,move+1):
+            if vects[i][0] == "U":
+                ypos += 1
+                #print((xpos,ypos))
+                if (xpos,ypos) not in d:
+                    d[(xpos,ypos)] = "+"
+            elif vects[i][0] == "D":
+                ypos -= 1
+                #print((xpos,ypos))
+                if (xpos,ypos) not in d:
+                    d[(xpos,ypos)] = "+"
+            elif vects[i][0] == "R":
+                xpos += 1
+                #print((xpos,ypos))
+                if (xpos,ypos) not in d:
+                    d[(xpos,ypos)] = "+"
+            elif vects[i][0] == "L":
+                xpos -= 1
+                #print((xpos,ypos))
+                if (xpos,ypos) not in d:
+                    d[(xpos,ypos)] = "+"
     return d
     
 
+def bothbeen(li):
+    both = {}
+    v = [0]*len(li)
+    for wire in range(len(li)):
+        v[wire] = wherebeen(li[wire])
+    for wires in v:
+        for key in wires:
+            if key not in both:
+                both[key] = 1
+            else:
+                both[key] = both[key]+1
+    return both
     
+def closest(dic):
+    f = {}
+    for key in dic:
+        if dic[key]>1 and key != (0,0):
+            f[key]=key[0]+key[1]
+    closest = min(f.keys(), key = (lambda k: f[k]))
+    print(f) 
+    print(closest)
+    return closest[0]+closest[1]
     
     
     
@@ -80,13 +95,11 @@ def wherebeen(vects):
     
 t0="""R8,U5,L5,D3
 U7,R6,D4,L4""" #6  
-
-print(len(form(t0)[0]))
-print(wherebeen(form(t0)[0]))
-
-
-
+assert(closest(bothbeen(form(t0)))==6)
 t1="""R75,D30,R83,U83,L12,D49,R71,U7,L72
 U62,R66,U55,R34,D71,R55,D58,R83""" #159
+print(closest(bothbeen(form(t1))))
+#assert(closest(bothbeen(form(t1)))==159)
 t2 = """R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
 U98,R91,D20,R16,D67,R40,U7,R15,U6,R7""" #135
+assert(closest(bothbeen(form(t2)))==135)
