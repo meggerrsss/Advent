@@ -10,90 +10,96 @@ def form(st): #string to list of list of strings
     for i in range(len(li)):
         li[i]=li[i].split(",")
     return li
-
-def maxtravel(li): #finding the furthest that a wire can go
-    nwires = len(li)
-    U = [0]*nwires
-    D = [0]*nwires
-    L = [0]*nwires
-    R = [0]*nwires
-    for wire in range(nwires):
-        for instr in li[wire]:
-            if instr[0]=="U":
-                U[wire]+=int(instr[1:])
-            elif instr[0]=="D":
-                D[wire]+=int(instr[1:])
-            elif instr[0]=="L":
-                L[wire]+=int(instr[1:])
-            elif instr[0]=="R":
-                R[wire]+=int(instr[1:])
-            else: 
-                print("wrong direction")
-    return U,D,L,R
     
     
-def wherebeen(vects): #creating the dictionary where 1 wire has been
+def wherebeen(vects): #creating the dictionary where 1 wire has been, with value as the length of the wire at that position
     xpos = 0
     ypos = 0
+    travel = 0
     d = {(0,0):"s"}
     for i in range(len(vects)):
         move = int(vects[i][1:])
         for j in range(1,move+1):
             if vects[i][0] == "U":
                 ypos += 1
+                travel += 1
                 if (xpos,ypos) not in d:
-                    d[(xpos,ypos)] = "+"
+                    d[(xpos,ypos)] = travel
             elif vects[i][0] == "D":
                 ypos -= 1
+                travel += 1
                 if (xpos,ypos) not in d:
-                    d[(xpos,ypos)] = "+"
+                    d[(xpos,ypos)] = travel
             elif vects[i][0] == "R":
                 xpos += 1
+                travel += 1
                 if (xpos,ypos) not in d:
-                    d[(xpos,ypos)] = "+"
+                    d[(xpos,ypos)] = travel
             elif vects[i][0] == "L":
                 xpos -= 1
+                travel += 1
                 if (xpos,ypos) not in d:
-                    d[(xpos,ypos)] = "+"
+                    d[(xpos,ypos)] = travel
     return d
-    
+
 
 def bothbeen(li): # creating a dictionary that counts how many wires have touched a spot (not necessarily crossed)
+    count = {}
+    length = {}
     both = {}
     v = [0]*len(li)
     for wire in range(len(li)):
         v[wire] = wherebeen(li[wire])
     for wires in v:
         for key in wires:
-            if key not in both:
-                both[key] = 1
+            if key not in count:
+                count[key] = 1
             else:
-                both[key] = both[key]+1
-    return both
+                count[key] = count[key]+1
+    for wires in range(len(v)):
+        for key in v[wires]: 
+            if key not in length:
+                length[key] = v[wires][key]
+            else: 
+                length[key] += v[wires][key]
+    for x in length:
+        if x in count and count[x]>1:
+            both[x]=length[x]
+    return count,both
     
     
 def closest(dic): # finding the closest place to (0,0) where at least 2 wires have touched
     f = {}
-    for key in dic:
-        if dic[key]>1 and key != (0,0):
+    for key in dic[0]:
+        if dic[0][key]>1 and key != (0,0):
             f[key]=abs(key[0])+abs(key[1])
     closest = min(f.keys(), key = (lambda k: f[k]))
-    return abs(closest[0])+abs(closest[1])
+    taxidist = abs(closest[0])+abs(closest[1])
+    return taxidist
     
     
+def shortest(dic): # finding the shortest length where at least 2 wires have touched
+    g = dic[1]
+    del g[(0,0)]
+    shortest = min(g.keys(), key = (lambda k: g[k]))
+    return g[shortest]
+        
     
-    
-    
+
     
 # given examples
 t0="""R8,U5,L5,D3
-U7,R6,D4,L4""" #6  
+U7,R6,D4,L4""" #6,30
 assert(closest(bothbeen(form(t0)))==6)
+assert(shortest(bothbeen(form(t0)))==30)
 t1="""R75,D30,R83,U83,L12,D49,R71,U7,L72
 U62,R66,U55,R34,D71,R55,D58,R83""" #159
 assert(closest(bothbeen(form(t1)))==159)
+assert(shortest(bothbeen(form(t1)))==610)
 t2 = """R98,U47,R26,D63,R33,U87,L62,D20,R33,U53,R51
 U98,R91,D20,R16,D67,R40,U7,R15,U6,R7""" #135
 assert(closest(bothbeen(form(t2)))==135)
+assert(shortest(bothbeen(form(t2)))==410)
 # solution
 assert(closest(bothbeen(form(inp)))==870)
+assert(shortest(bothbeen(form(inp)))==13698)
