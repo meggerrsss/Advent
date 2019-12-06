@@ -41,14 +41,20 @@ def thing3(li,inputs=inputs,d=0):
                 print("intcode is",(li[i:i+4]))
                 print("pieces are",p,str(p[3])+" means add")
             if p[2]==1 and p[1]==1:
+                if d: print(li[i+1]," + ",li[i+2])
                 li[li[i+3]] = li[i+1] + li[i+2]
             elif p[2]==1:
+                if d: print(li[i+1]," + ",li[li[i+2]])
                 li[li[i+3]] = li[i+1] + li[li[i+2]]
             elif p[1]==1:
+                if d: print(li[li[i+1]]," + ",li[i+2])
                 li[li[i+3]] = li[li[i+1]] + li[i+2]
             else: 
+                if d: print("position mode both")
+                if d: print(li[li[i+1]]," + ",li[li[i+2]])
                 li[li[i+3]] = li[li[i+1]] + li[li[i+2]] 
             i += 4
+            if d: print(li)
         elif p[3] == 2:
             if d: 
                 print("intcode is",(li[i:i+4]))
@@ -67,7 +73,8 @@ def thing3(li,inputs=inputs,d=0):
                 print("intcode is",(li[i:i+2]))
                 print("pieces are",p,str(p[3])+" means store new input")
             if inputs:
-                li[li[i+1]] = int(inputs.pop(0))
+                #li[li[i+1]] = int(inputs.pop(0))
+                li[li[i+1]] = int(inputs[0])
                 if d: print(li[li[i+1]],type(li[li[i+1]]))
             else:
                 li[li[i+1]] = int(input("gimme a number: "))
@@ -81,19 +88,39 @@ def thing3(li,inputs=inputs,d=0):
                 print(li[li[i+1]])
             i += 2
         elif p[3] == 5:
-            if d: print("pieces are",p[3],str(p[3])+" means jump if true")
-            if li[i+1] != 0:
-                i = li[i+2]
-                if d: print('jumping by',i)
-            else:
-                i += 3
+            if d: print("pieces are",p,str(p[3])+" means jump if true/nonzero")
+            if p[2]==1:
+                if li[i+1]!=0:
+                    i = li[i+2]
+                    if d: print('jumping to',i)
+                else:
+                    i = i+3 
+                    if d: print('jumping to',i)
+            elif p[2]==0:
+                if li[li[i+1]]!=0:
+                    i = li[i+2]
+                    if d: print('jumping to',i)
+                else:
+                    i = i+3
+                    if d: print('jumping to',i)
+            if d: print(li)
         elif p[3] == 6:
-            if d: print("pieces are",p[:3],str(p[3])+" means jump if false")
-            if li[i+1] == 0:
-                i = li[i+2]
-                if d: print('jumping by',i)
-            else:
-                i += 3
+            if d: print("pieces are",p,str(p[3])+" means jump if false/zero")
+            if p[2]==1:
+                if li[i+1]==0:
+                    i = li[i+2]
+                    if d: print('jumping to',i)
+                else:
+                    i = i+3 
+                    if d: print('jumping to',i)
+            elif p[2]==0:
+                if li[li[i+1]]==0:
+                    i = li[i+2]
+                    if d: print('jumping to',i)
+                else:
+                    i = i+3
+                    if d: print('jumping to',i)
+            if d: print(li)
         elif p[3] == 7:
             if d: 
                 print("pieces are",p,str(p[3])+" means less than")
@@ -126,45 +153,51 @@ def thing3(li,inputs=inputs,d=0):
 
 ##day 2 tests
 t0="1,9,10,3,2,3,11,0,99,30,40,50" #3500
-assert(thing3(t0)==3500)
+#assert(thing3(t0)==3500) #x
 t1="1,0,0,0,99" #2 
-assert(thing3(t1)==2)
+assert(thing3(t1)==2) #x
 t2="2,3,0,3,99" #2
-assert(thing3(t2)==2)
+assert(thing3(t2)==2) #x
 t3="2,4,4,5,99,0" #2
-assert(thing3(t3)==2)
+assert(thing3(t3)==2) #x
 t4="1,1,1,4,99,5,6,0,99" #30
-assert(thing3(t4)==30)
+assert(thing3(t4)==30) #x
 d2test = "1,12,2,3,1,1,2,3,1,3,4,3,1,5,0,3,2,6,1,19,1,5,19,23,2,9,23,27,1,6,27,31,1,31,9,35,2,35,10,39,1,5,39,43,2,43,9,47,1,5,47,51,1,51,5,55,1,55,9,59,2,59,13,63,1,63,9,67,1,9,67,71,2,71,10,75,1,75,6,79,2,10,79,83,1,5,83,87,2,87,10,91,1,91,5,95,1,6,95,99,2,99,13,103,1,103,6,107,1,107,5,111,2,6,111,115,1,115,13,119,1,119,2,123,1,5,123,0,99,2,0,14,0"
-assert(thing3(d2test)==3101844)
+assert(thing3(d2test)==3101844) #x
 d2testl = "1,12,2,3,1,1,2,3,1,3,4,3,1,5,0,3,2,1,6,19,2,19,6,23,1,23,5,27,1,9,27,31,1,31,10,35,2,35,9,39,1,5,39,43,2,43,9,47,1,5,47,51,2,51,13,55,1,55,10,59,1,59,10,63,2,9,63,67,1,67,5,71,2,13,71,75,1,75,10,79,1,79,6,83,2,13,83,87,1,87,6,91,1,6,91,95,1,10,95,99,2,99,6,103,1,103,5,107,2,6,107,111,1,10,111,115,1,115,5,119,2,6,119,123,1,123,5,127,2,127,6,131,1,131,5,135,1,2,135,139,1,139,13,0,99,2,0,14,0"
-assert(thing3(d2testl)==3058646)
+assert(thing3(d2testl)==3058646) #x
 d2testg = "1,12,2,3,1,1,2,3,1,3,4,3,1,5,0,3,2,6,1,19,2,19,9,23,1,23,5,27,2,6,27,31,1,31,5,35,1,35,5,39,2,39,6,43,2,43,10,47,1,47,6,51,1,51,6,55,2,55,6,59,1,10,59,63,1,5,63,67,2,10,67,71,1,6,71,75,1,5,75,79,1,10,79,83,2,83,10,87,1,87,9,91,1,91,10,95,2,6,95,99,1,5,99,103,1,103,13,107,1,107,10,111,2,9,111,115,1,115,6,119,2,13,119,123,1,123,6,127,1,5,127,131,2,6,131,135,2,6,135,139,1,139,5,143,1,143,10,147,1,147,2,151,1,151,13,0,99,2,0,14,0"
-assert(thing3(d2testg)==4576384)
+assert(thing3(d2testg)==4576384) #x
 
 #day 5 tests
 u0="1002,4,3,4,33" #1002
-assert(thing3(u0)==1002)
+assert(thing3(u0)==1002) #x
 u1="1101,100,-1,3,99" # 1101
-assert(thing3(u1)==1101)
+assert(thing3(u1)==1101) #x
 u2="104,50,99" # 50
-assert(thing3(u2,[1])==104)
+#assert(thing3(u2,[1])==104) #x
 u3="4,1,99" # 1
-#print(thing3(u3,[1]))
-u4="3,0,4,0,99"
-#assert(thing3(u4,[1])==1)
+#print(thing3(u3,[1])) #x
+u4="3,0,4,0,99" 
+#assert(thing3(u4,[1])==1) #x
 u5="3,9,8,9,10,9,4,9,99,-1,8"
-#print(thing3(u5,[8]))
+#print(thing3(u5,[8])) #x
 u6="3,9,7,9,10,9,4,9,99,-1,8"
-#print(thing3(u6,[8],d=1))
+#print(thing3(u6,[8],d=1)) #x
 u7="3,3,1108,-1,8,3,4,3,99"
-#print(thing3(u7,[8],d=1))
+#print(thing3(u7,[8],d=1)) #x
 u8="3,3,1107,-1,8,3,4,3,99"
-#print(thing3(u8,[8],d=1))
+#print(thing3(u8,[8],d=1)) #x
 u9="3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"
-print(thing3(u9,[0]))
+#print(thing3(u9,[0],d=1)) #0  #x
+#print(thing3(u9,[1])) #1 #x
+u10="3,3,1105,-1,9,1101,0,0,12,4,12,99,1"
+#print(thing3(u10,[0])) #0 #x
+#print(thing3(u10,[1])) #1 #x
+u11="3,21,1008,21,8,20,1005,20,22,107,8,21,20,1006,20,31,1106,0,36,98,0,0,1002,21,125,20,4,20,1105,1,46,104,999,1105,1,46,1101,1000,1,20,4,20,1105,1,46,98,99"
+#print(thing3(u11,[7],d=1)) #999 
+#print(thing3(u11,[8],d=1)) #1000 #x
+#print(thing3(u11,[9]),) #1001 #x
 
-
-
-#print(thing3(inp,[5]))
+print(thing3(inp,[5],d=1))
 
