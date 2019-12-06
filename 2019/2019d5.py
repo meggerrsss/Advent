@@ -24,10 +24,12 @@ def pieces(n):
 
 
 def heaviside(a,b,c): #a = 0 or 1
-    a = True and a or False and not a
-    return (1-a)*b + a*c
+    #a = True and a or False and not a
+    #return (1-a)*b + a*c
+    if a: return c 
+    else: return b
     
-def thing3(li,d=0): 
+def thing3(li,inputs=inputs,d=0): 
     li = form(li)
     i = 0
     while i < len(li):
@@ -70,6 +72,7 @@ def thing3(li,d=0):
             else:
                 li[li[i+1]] = int(input("gimme a number: "))
             i += 2
+            if d: print(li)
         elif p[3] == 4:
             if d: print("pieces are",p,str(p[3])+" means output value")
             if p[2]==1: 
@@ -77,6 +80,45 @@ def thing3(li,d=0):
             else:
                 print(li[li[i+1]])
             i += 2
+        elif p[3] == 5:
+            if d: print("pieces are",p[3],str(p[3])+" means jump if true")
+            if li[i+1] != 0:
+                i = li[i+2]
+                if d: print('jumping by',i)
+            else:
+                i += 3
+        elif p[3] == 6:
+            if d: print("pieces are",p[:3],str(p[3])+" means jump if false")
+            if li[i+1] == 0:
+                i = li[i+2]
+                if d: print('jumping by',i)
+            else:
+                i += 3
+        elif p[3] == 7:
+            if d: 
+                print("pieces are",p,str(p[3])+" means less than")
+            if p[2]==1 and p[1]==1:
+                li[li[i+3]] = int(li[i+1] < li[i+2])
+            elif p[2]==1:
+                li[li[i+3]] = int(li[i+1] < li[li[i+2]])
+            elif p[1]==1:
+                li[li[i+3]] = int(li[li[i+1]] < li[i+2])
+            else: 
+                li[li[i+3]] = int(li[li[i+1]] < li[li[i+2]])     
+            if d: print(li[li[i+3]])
+            i += 4
+        elif p[3] == 8:
+            if d: 
+                print("pieces are",p,str(p[3])+" means equals")
+            if p[2]==1 and p[1]==1:
+                li[li[i+3]] = int(li[i+1] == li[i+2])
+            elif p[2]==1:
+                li[li[i+3]] = int(li[i+1] == li[li[i+2]])
+            elif p[1]==1:
+                li[li[i+3]] = int(li[li[i+1]] == li[i+2])
+            else: 
+                li[li[i+3]] = int(li[li[i+1]] == li[li[i+2]])   
+            i += 4
         else: 
             return str(p[3])+" means no correct instruction"
     if d: print(li)
@@ -100,16 +142,29 @@ assert(thing3(d2testl)==3058646)
 d2testg = "1,12,2,3,1,1,2,3,1,3,4,3,1,5,0,3,2,6,1,19,2,19,9,23,1,23,5,27,2,6,27,31,1,31,5,35,1,35,5,39,2,39,6,43,2,43,10,47,1,47,6,51,1,51,6,55,2,55,6,59,1,10,59,63,1,5,63,67,2,10,67,71,1,6,71,75,1,5,75,79,1,10,79,83,2,83,10,87,1,87,9,91,1,91,10,95,2,6,95,99,1,5,99,103,1,103,13,107,1,107,10,111,2,9,111,115,1,115,6,119,2,13,119,123,1,123,6,127,1,5,127,131,2,6,131,135,2,6,135,139,1,139,5,143,1,143,10,147,1,147,2,151,1,151,13,0,99,2,0,14,0"
 assert(thing3(d2testg)==4576384)
 
+#day 5 tests
 u0="1002,4,3,4,33" #1002
 assert(thing3(u0)==1002)
 u1="1101,100,-1,3,99" # 1101
 assert(thing3(u1)==1101)
-#u2="104,50,99" # 50
-#assert(thing3(u2)==104)
-#u3="4,1,99" # 1
-#print(thing3(u3))
-#u4="3,0,4,0,99"
-#assert(thing3(u4)==1)
+u2="104,50,99" # 50
+assert(thing3(u2,[1])==104)
+u3="4,1,99" # 1
+#print(thing3(u3,[1]))
+u4="3,0,4,0,99"
+#assert(thing3(u4,[1])==1)
+u5="3,9,8,9,10,9,4,9,99,-1,8"
+#print(thing3(u5,[8]))
+u6="3,9,7,9,10,9,4,9,99,-1,8"
+#print(thing3(u6,[8],d=1))
+u7="3,3,1108,-1,8,3,4,3,99"
+#print(thing3(u7,[8],d=1))
+u8="3,3,1107,-1,8,3,4,3,99"
+#print(thing3(u8,[8],d=1))
+u9="3,12,6,12,15,1,13,14,13,4,13,99,-1,0,1,9"
+print(thing3(u9,[0]))
 
-print(thing3(inp))
+
+
+#print(thing3(inp,[5]))
 
