@@ -77,7 +77,7 @@ def neighbourson(grid, lat, long):
     return l, count
 
 
-def switch(grid):
+def switch(grid,mode=0):
   new = copy.deepcopy(grid)
   size = (len(grid),len(grid[0]))
   for i in range(size[0]):
@@ -89,25 +89,32 @@ def switch(grid):
         new[i][j] = 1
       else: 
         new[i][j] = 0
+  if mode == 1:
+    new[0][0] = 1
+    new[0][size[1]-1] = 1
+    new[size[0]-1][0] = 1
+    new[size[0]-1][size[1]-1] = 1
   return new
 
 
 
-def iterswitch(grid,n):
+def iterswitch(grid,n,mode=0):
     time = [grid]
     while n>0:
-        new = switch(grid)
+        new = switch(grid,mode)
         time.append(new)
         grid = new
         n -= 1
     return grid
 
 
-#grid = numgrid(initgrid(inp,100,100))
+grid = numgrid(initgrid(inp,100,100))
 #print(neighbourson(grid,10,10)[1])
-#print count(iterswitch(grid,100))
+#print(count(iterswitch(grid,100,1)))
 
-#print "Day 18: \nPart 1: {0} \nPart 2: {1}".format("1","2")
+p1 = count(iterswitch(grid,100,0))
+p2 = count(iterswitch(grid,100,1))
+print("Day 18: \nPart 1: {0} \nPart 2: {1}".format(p1,p2))
 
 
 #grid = np.array(numgrid(initgrid(inp,100,100)))
@@ -119,8 +126,9 @@ def iterswitch(grid,n):
 #plt.show()
 
 
-t0 = ".#.#.#\n...##.\n#....#\n..#...\n#.#..#\n####.."
-grid0 = initgrid(t0,6,6)
-print(numgrid(grid0))
-print(neighbourson(grid0,0,2))
-print(iterswitch(numgrid(grid0),4))
+#t0 = ".#.#.#\n...##.\n#....#\n..#...\n#.#..#\n####.."
+#grid0 = initgrid(t0,6,6)
+#print(numgrid(grid0))
+#print(neighbourson(grid0,0,2))
+#print(iterswitch(numgrid(grid0),4))
+#print(count(iterswitch(numgrid(grid0),4)))
