@@ -3,6 +3,7 @@ __author__ = 'Meghan'
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib import animation
+import copy
 
 f = open('input.txt', 'r')
 inp = f.read()
@@ -77,18 +78,18 @@ def neighbourson(grid, lat, long):
 
 
 def switch(grid):
-    new = grid
-    size = (len(grid),len(grid[0]))
-    for i in range(size[0]):
-        for j in range(size[1]):
-            surround = neighbourson(grid,i,j)[1]
-            if grid[i][j] ==1 and (surround == 2 or surround == 3):
-                new[i][j] = 1
-            elif grid[i][j] ==0 and surround == 3:
-                new[i][j] = 1
-            else:
-                new[i][j] = 0
-    return new
+  new = copy.deepcopy(grid)
+  size = (len(grid),len(grid[0]))
+  for i in range(size[0]):
+    for j in range(size[1]):
+      surround = neighbourson(grid,i,j)[1]
+      if grid[i][j] in [1,'#'] and surround in [2,3]:
+        new[i][j] = 1
+      elif grid[i][j] in [0,'.'] and surround == 3:
+        new[i][j] = 1
+      else: 
+        new[i][j] = 0
+  return new
 
 
 
@@ -103,7 +104,7 @@ def iterswitch(grid,n):
 
 
 #grid = numgrid(initgrid(inp,100,100))
-#print neighbourson(grid,10,10)[1]
+#print(neighbourson(grid,10,10)[1])
 #print count(iterswitch(grid,100))
 
 #print "Day 18: \nPart 1: {0} \nPart 2: {1}".format("1","2")
@@ -116,3 +117,10 @@ def iterswitch(grid,n):
 #plt.pcolormesh(x, y, grid)
 #plt.colorbar()
 #plt.show()
+
+
+t0 = ".#.#.#\n...##.\n#....#\n..#...\n#.#..#\n####.."
+grid0 = initgrid(t0,6,6)
+print(numgrid(grid0))
+print(neighbourson(grid0,0,2))
+print(iterswitch(numgrid(grid0),4))
