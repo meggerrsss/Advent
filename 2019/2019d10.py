@@ -1,6 +1,4 @@
-import matplotlib.pyplot as plt
 import numpy 
-from matplotlib import animation
 import copy
 import math
 
@@ -40,12 +38,13 @@ def dist(p1,p2):
 
 
 def addtodict(dict,ang,grid,lat,long,ref):
-  newang = metangles(ang,'r')
+  newang = (360-ang) % 360
   if grid[lat][long] in [1,'#'] and not ref==(lat,long):
-    if newang not in dict:
-      dict[newang] = (lat,long) #dict of unique points, hopefully the closest
-    elif ang in dict and dist((lat,long),ref) < dist(dict[newang],ref):
-      dict[newang] = (lat,long)
+    b = numpy.degrees(newang) % 360
+    if b not in dict:
+      dict[b] = (lat,long) #dict of unique points, hopefully the closest
+    elif dist((lat,long),ref) < dist(dict[b],ref):
+      dict[b] = (lat,long)
 
 
 def metangles(ang,mod='r'): #the angles of meteorologists 
@@ -59,7 +58,7 @@ def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) wh
   size = grid.shape
   q1,q2,q3,q4,d,e = {},{},{},{},{},{}
   s = set()
-  if grid[ref[0]][ref[1]] in [0,'.']: print("can't put an asteroid here")
+  if grid[ref[0]][ref[1]] in [0,'.']: print("can't put a thing here, no asteroid")
   for lat in range(size[0]):
     for long in range(size[1]):
       dx,dy = long-ref[1],lat-ref[0]
@@ -67,35 +66,27 @@ def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) wh
         continue 
       elif dx == 0 and dy<0: 
         ang = -numpy.pi/2
-        deg = numpy.degrees(ang)
         addtodict(q1,ang,grid,lat,long,ref)
       elif dx>0 and dy<0: # top right of ref
         ang = numpy.arctan(dy/dx)
-        deg = numpy.degrees(ang)
         addtodict(q1,ang,grid,lat,long,ref)
       elif dx>0 and dy == 0:
         ang = -0.00000000000001
-        deg = numpy.degrees(ang)
         addtodict(q2,ang,grid,lat,long,ref)
       elif dy>0 and dx>0: # bottom right of ref
         ang = numpy.arctan(dy/dx)
-        deg = numpy.degrees(ang)
         addtodict(q2,ang,grid,lat,long,ref)
       elif dx == 0 and dy>0:
         ang = numpy.pi/2
-        deg = numpy.degrees(ang)
         addtodict(q3,ang,grid,lat,long,ref)      
       elif dy>0 and dx<0: # bottom left of ref
         ang = numpy.arctan(dy/dx)
-        deg = numpy.degrees(ang)
         addtodict(q3,ang,grid,lat,long,ref)   
       elif dy == 0 and dx<0:
         ang = 0.00000000000001
-        deg = numpy.degrees(ang)
         addtodict(q4,ang,grid,lat,long,ref)   
       elif dy<0 and dx<0: # top left of ref
         ang = numpy.arctan(dy/dx)
-        deg = numpy.degrees(ang)
         addtodict(q4,ang,grid,lat,long,ref)   
       else:
         ang = numpy.arctan(dy/dx)
@@ -119,6 +110,14 @@ def seenperast(grid):
   return per,m,p
 
 
+def rotationremove(grid):
+  best = seenperast(grid)[2]  
+  new = copy.deepcopy(grid)
+  q1,q2,q3,q4,allasts,x = slopes(grid,best)
+  
+
+
+
 # test cases
 with open("t0.txt","r") as f: t0 = numgrid(initgrid(f.read()))
 with open("t1.txt","r") as f: t1 = numgrid(initgrid(f.read()))
@@ -129,18 +128,11 @@ with open("t4.txt","r") as f: t4 = numgrid(initgrid(f.read()))
 
 chart = numgrid(initgrid(inp))
 which = t0
-print(which)
-g = seenperast(which)
-print(g[0])
-print("max = ",g[1],"at",g[2])
+print(which) # initial plot, for easy switching
+g = seenperast(which) 
+print(g[0]) # how many seen per ast on the grid
+print("max = ",g[1],"at",g[2]) # best amount seen at position
+print(slopes(which,g[2])[0]) # (q1,q2,q3,q4)
 
 
 print(metangles(numpy.pi/2,'r'))
-
-
-
-
-
-
-
-
