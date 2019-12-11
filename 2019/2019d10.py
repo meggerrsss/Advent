@@ -108,10 +108,11 @@ def seenperast(grid):
   return per,m,p
 
 
-def rotationremove(grid):
-  best = seenperast(grid)[2]  
-  new = copy.deepcopy(grid)
-  q1,q2,q3,q4,allasts,x = slopes(grid,best)
+def listofangles(d):
+  q1,q2,q3,q4 = d
+  keys = list(q1.keys())+list(q2.keys())+list(q3.keys())+list(q4.keys())
+  sortedangles = keys.sort()
+  return keys
   
 
 
@@ -125,12 +126,11 @@ with open("t4.txt","r") as f: t4 = numgrid(initgrid(f.read()))
 
 
 chart = numgrid(initgrid(inp))
-which = t3
+which = t0
 print(which) # initial plot, for easy switching
 g = seenperast(which) 
 print(g[0]) # how many seen per ast on the grid
 print("max = ",g[1],"at",g[2]) # best amount seen at position
 print(slopes(which,g[2])[0]) # (q1,q2,q3,q4)
+print(listofangles(slopes(which,g[2])[0]))
 
-
-print(metangles(numpy.pi/2,'r'))
