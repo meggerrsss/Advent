@@ -38,7 +38,7 @@ def dist(p1,p2):
 
 
 def addtodict(dict,ang,grid,lat,long,ref):
-  newang = (360-ang) % 360
+  newang = numpy.pi/2-ang
   if grid[lat][long] in [1,'#'] and not ref==(lat,long):
     b = numpy.degrees(newang) % 360
     if b not in dict:
@@ -65,31 +65,29 @@ def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) wh
       if dx == 0 and dy == 0:
         continue 
       elif dx == 0 and dy<0: 
-        ang = -numpy.pi/2
+        ang = numpy.pi/2
         addtodict(q1,ang,grid,lat,long,ref)
       elif dx>0 and dy<0: # top right of ref
-        ang = numpy.arctan(dy/dx)
+        ang = -numpy.arctan(dy/dx)
         addtodict(q1,ang,grid,lat,long,ref)
       elif dx>0 and dy == 0:
         ang = -0.00000000000001
         addtodict(q2,ang,grid,lat,long,ref)
       elif dy>0 and dx>0: # bottom right of ref
-        ang = numpy.arctan(dy/dx)
+        ang = -numpy.arctan(dy/dx)
         addtodict(q2,ang,grid,lat,long,ref)
       elif dx == 0 and dy>0:
-        ang = numpy.pi/2
+        ang = -numpy.pi/2
         addtodict(q3,ang,grid,lat,long,ref)      
       elif dy>0 and dx<0: # bottom left of ref
-        ang = numpy.arctan(dy/dx)
+        ang = numpy.pi -numpy.arctan(dy/dx)
         addtodict(q3,ang,grid,lat,long,ref)   
       elif dy == 0 and dx<0:
-        ang = 0.00000000000001
+        ang = numpy.pi + 0.00000000000001
         addtodict(q4,ang,grid,lat,long,ref)   
       elif dy<0 and dx<0: # top left of ref
-        ang = numpy.arctan(dy/dx)
+        ang = numpy.pi - numpy.arctan(dy/dx)
         addtodict(q4,ang,grid,lat,long,ref)   
-      else:
-        ang = numpy.arctan(dy/dx)
       e[(lat,long)] = ang #actual list of all points
   total = len(q1)+len(q2)+len(q3)+len(q4)
   return (q1,q2,q3,q4),e,total
@@ -127,7 +125,7 @@ with open("t4.txt","r") as f: t4 = numgrid(initgrid(f.read()))
 
 
 chart = numgrid(initgrid(inp))
-which = t0
+which = t3
 print(which) # initial plot, for easy switching
 g = seenperast(which) 
 print(g[0]) # how many seen per ast on the grid
