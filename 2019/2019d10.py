@@ -89,8 +89,12 @@ def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) wh
         ang = numpy.pi - numpy.arctan(dy/dx)
         addtodict(q4,ang,grid,lat,long,ref)   
       e[(lat,long)] = ang #actual list of all points
+  q = {} #superdict!
+  for di in [q1,q2,q3,q4]:
+    for k, v in di.items():  
+      q.setdefault(k, []).append(v)
   total = len(q1)+len(q2)+len(q3)+len(q4)
-  return (q1,q2,q3,q4),e,total
+  return q,e,total
 
 
 def seenperast(grid):
@@ -109,13 +113,10 @@ def seenperast(grid):
 
 
 def listofangles(d):
-  q1,q2,q3,q4 = d
-  keys = list(q1.keys())+list(q2.keys())+list(q3.keys())+list(q4.keys())
+  keys = list(d.keys())
   sortedangles = keys.sort()
   return keys
   
-
-
 
 # test cases
 with open("t0.txt","r") as f: t0 = numgrid(initgrid(f.read()))
