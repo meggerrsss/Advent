@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 import numpy 
+from matplotlib import animation
 import copy
 import math
 
@@ -37,9 +39,25 @@ def dist(p1,p2):
   return numpy.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
 
 
+def addtodict(dict,ang,grid,lat,long,ref):
+  newang = metangles(ang,'r')
+  if grid[lat][long] in [1,'#'] and not ref==(lat,long):
+    if newang not in dict:
+      dict[newang] = (lat,long) #dict of unique points, hopefully the closest
+    elif ang in dict and dist((lat,long),ref) < dist(dict[newang],ref):
+      dict[newang] = (lat,long)
+
+
+def metangles(ang,mod='r'): #the angles of meteorologists 
+  if mod == 'd':
+    return (90-ang) % 360
+  elif mod == 'r':
+    return numpy.radians((90-numpy.degrees(ang))%360)
+
+
 def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) where x is -row and y is +col coords 
   size = grid.shape
-  d,e = {},{}
+  q1,q2,q3,q4,d,e = {},{},{},{},{},{}
   s = set()
   if grid[ref[0]][ref[1]] in [0,'.']: print("can't put an asteroid here")
   for lat in range(size[0]):
@@ -48,31 +66,42 @@ def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) wh
       if dx == 0 and dy == 0:
         continue 
       elif dx == 0 and dy<0: 
-        ang = numpy.pi/2
-      elif dx == 0 and dy>0:
         ang = -numpy.pi/2
-      elif dy == 0 and dx>0:
-        ang = -0.00001
-      elif dy == 0 and dx<0:
-        ang = 0.00001
+        deg = numpy.degrees(ang)
+        addtodict(q1,ang,grid,lat,long,ref)
+      elif dx>0 and dy<0: # top right of ref
+        ang = numpy.arctan(dy/dx)
+        deg = numpy.degrees(ang)
+        addtodict(q1,ang,grid,lat,long,ref)
+      elif dx>0 and dy == 0:
+        ang = -0.00000000000001
+        deg = numpy.degrees(ang)
+        addtodict(q2,ang,grid,lat,long,ref)
       elif dy>0 and dx>0: # bottom right of ref
-        ang = numpy.arctan(dy/dx)*1000 # cheating to give each quadrant different angles
+        ang = numpy.arctan(dy/dx)
+        deg = numpy.degrees(ang)
+        addtodict(q2,ang,grid,lat,long,ref)
+      elif dx == 0 and dy>0:
+        ang = numpy.pi/2
+        deg = numpy.degrees(ang)
+        addtodict(q3,ang,grid,lat,long,ref)      
       elif dy>0 and dx<0: # bottom left of ref
-        ang = numpy.arctan(dy/dx)*10
-      elif dy<0 and dx>0: # top right of ref
-        ang = numpy.arctan(dy/dx)*100
+        ang = numpy.arctan(dy/dx)
+        deg = numpy.degrees(ang)
+        addtodict(q3,ang,grid,lat,long,ref)   
+      elif dy == 0 and dx<0:
+        ang = 0.00000000000001
+        deg = numpy.degrees(ang)
+        addtodict(q4,ang,grid,lat,long,ref)   
       elif dy<0 and dx<0: # top left of ref
         ang = numpy.arctan(dy/dx)
+        deg = numpy.degrees(ang)
+        addtodict(q4,ang,grid,lat,long,ref)   
       else:
         ang = numpy.arctan(dy/dx)
-      if grid[lat][long] in [1,'#'] and not ref==(lat,long):
-        if ang not in d:
-          d[ang] = (lat,long) #dict of unique points, hopefully the closest
-        elif ang in d and dist((lat,long),ref) < dist(d[ang],ref):
-          d[ang] = (lat,long)
-        e[(lat,long)] = ang #actual list of all points
-        s.add(ang)
-  return d,e,len(d),len(e),len(s)
+      e[(lat,long)] = ang #actual list of all points
+  total = len(q1)+len(q2)+len(q3)+len(q4)
+  return (q1,q2,q3,q4),e,total
 
 
 def seenperast(grid):
@@ -104,3 +133,14 @@ print(which)
 g = seenperast(which)
 print(g[0])
 print("max = ",g[1],"at",g[2])
+
+
+print(metangles(numpy.pi/2,'r'))
+
+
+
+
+
+
+
+
