@@ -1,10 +1,10 @@
 import numpy 
+import copy
 import math
 
 f = open('input.txt', 'r')
 inp = f.read()
 f.close()
-print(inp)
 
 # from 2015 day 18
 def blankgrid(n, m): # n is number of rows, m is number of columns, from day 6
@@ -33,27 +33,74 @@ def numgrid(grid):
     return numpy.array(new)
 
 
-def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) coords 
+def dist(p1,p2):
+  return numpy.sqrt((p1[0]-p2[0])**2 + (p1[1]-p2[1])**2)
+
+
+def slopes(grid,ref): #where grid is np array of lists, ref is tuple of (x,y) where x is -row and y is +col coords 
   size = grid.shape
-  d = {}
-  for lat in size[0]:
-    for long in size[1]:
-      dx,dy = long-ref[0],lat-ref[1]
-      d[(lat,long)] = math.arctan(dy/dx)
+  d,e = {},{}
+  s = set()
+  if grid[ref[0]][ref[1]] in [0,'.']: print("can't put an asteroid here")
+  for lat in range(size[0]):
+    for long in range(size[1]):
+      dx,dy = long-ref[1],lat-ref[0]
+      if dx == 0 and dy == 0:
+        continue 
+      elif dx == 0 and dy<0: 
+        ang = numpy.pi/2
+      elif dx == 0 and dy>0:
+        ang = -numpy.pi/2
+      elif dy == 0 and dx>0:
+        ang = -0.00001
+      elif dy == 0 and dx<0:
+        ang = 0.00001
+      elif dy>0 and dx>0: # bottom right of ref
+        ang = numpy.arctan(dy/dx)*1000 # cheating to give each quadrant different angles
+      elif dy>0 and dx<0: # bottom left of ref
+        ang = numpy.arctan(dy/dx)*10
+      elif dy<0 and dx>0: # top right of ref
+        ang = numpy.arctan(dy/dx)*100
+      elif dy<0 and dx<0: # top left of ref
+        ang = numpy.arctan(dy/dx)
+      else:
+        ang = numpy.arctan(dy/dx)
+      if grid[lat][long] in [1,'#'] and not ref==(lat,long):
+        if ang not in d:
+          d[ang] = (lat,long) #dict of unique points, hopefully the closest
+        elif ang in d and dist((lat,long),ref) < dist(d[ang],ref):
+          d[ang] = (lat,long)
+        e[(lat,long)] = ang #actual list of all points
+        s.add(ang)
+  return d,e,len(d),len(e),len(s)
 
 
-chart = numgrid(initgrid(inp))
-print(chart.shape)
+def seenperast(grid):
+  per = copy.deepcopy(grid)
+  size = grid.shape
+  for lat in range(size[0]):
+    for long in range(size[1]):
+      if grid[lat][long] in [1,'#']:
+        per[lat][long] = slopes(grid,(lat,long))[-1]
+  m = numpy.amax(per)
+  for lat in range(size[0]):
+    for long in range(size[1]):
+      if per[lat][long] == m:
+        p = (lat,long)
+  return per,m,p
 
 
-
-
-
-
-
+# test cases
 with open("t0.txt","r") as f: t0 = numgrid(initgrid(f.read()))
 with open("t1.txt","r") as f: t1 = numgrid(initgrid(f.read()))
 with open("t2.txt","r") as f: t2 = numgrid(initgrid(f.read()))
 with open("t3.txt","r") as f: t3 = numgrid(initgrid(f.read()))
 with open("t4.txt","r") as f: t4 = numgrid(initgrid(f.read()))
 
+
+chart = numgrid(initgrid(inp))
+which = t0
+print(which)
+g = seenperast(which)
+print(g[0])
+print("max = ",g[1],"at",g[2])
