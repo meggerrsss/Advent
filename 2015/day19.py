@@ -17,7 +17,7 @@ def mutate(st,r):
         n = str(lett[0:i])+str(r[j][2])+str(lett[i+1:])
         s.add(n)
       if r[j][0] == lett[i:i+2]:
-        n = str(lett[0:i])+str(r[j][2])+str(lett[i+1:])
+        n = str(lett[0:i])+str(r[j][2])+str(lett[i+2:])
         s.add(n)
   return len(s)
 
