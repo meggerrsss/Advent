@@ -37,13 +37,20 @@ def primefactors(x): # n -> [list of prime factors of n]
       pf.append(i)
   return pf
 
-def presents(n): # n -> n, how many presents house n gets
-  return sum(factors(n))*10
+def presents(n,PartTwo=False): # n -> n, how many presents house n gets
+  return sum(factors(n))*(10+PartTwo) 
 
-for i in range(inp): # trying to find the house that gets more presents than input 
-  if presents(i) >= inp:
-    print(i)
+def combi(x,n): #basically just for combining factors and presents
+  return sum(d for d in factors(n) if x / d <= 50)
+
+for i in range(10): # trying to find the house that gets more presents than input 
+  p = presents(i)
+  if p >= inp:
+    print(i,p)
     break # hope i used break right because this is going to be a long run
+  print(i,p)
+#print(presents(int(0.043005*inp))>inp)
+#print(0.043005*inp)
 
 def sumprime(x): #this doesn't work and i'm not really convinced the math was ever right, since it's somehow supposed to get different results when multiple numbers have the same prime factorization. needs more prefixes. 
   l = primefactors(x) 
@@ -61,3 +68,6 @@ def sumprime(x): #this doesn't work and i'm not really convinced the math was ev
 #for i in range(10):
 #  print(presents(i))
 # [10,30,40,70,60,120,80,150,130]
+
+
+# 786240 831600
