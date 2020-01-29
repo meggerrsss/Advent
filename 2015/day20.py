@@ -29,8 +29,6 @@ def isprime(n): # n -> whether or not n is prime
     i = i + 6
   return True
 
-#print(isprime(7))
-
 def primefactors(x): # n -> [list of prime factors of n]
   f = factors(x)
   pf = []
@@ -39,17 +37,15 @@ def primefactors(x): # n -> [list of prime factors of n]
       pf.append(i)
   return pf
 
-#print(primefactors(353))
-
 def presents(n):
   return sum(factors(n))*10
 
-for i in range(100):
+for i in range(inp):
   if presents(i) >= inp:
     print(i)
     break
 
-def sumprime(x):
+def sumprime(x): #this doesn't work 
   l = primefactors(x) 
   t = 0
   m = []
@@ -62,17 +58,9 @@ def sumprime(x):
     t=t*i 
   return t+len(l)
 
-n=12
-print(primefactors(n))
-print(sumprime(n)) # 28
-
-
 #for i in range(10):
 #  print(presents(i))
 
-
-#i probably should do this in reverse  
-#print(inp/10)
 
 
 # [10,30,40,70,60,120,80,150,130]
