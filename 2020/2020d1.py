@@ -28,3 +28,14 @@ def twentytwenty3(li):
 
 # part two answer 
 print(twentytwenty3(linpt))
+
+
+
+# attempting some optimization because gianni's complaining
+def twentytwentyagain(li):
+  li = set(li)
+  for s in li:
+    if 2020-s in li:
+      return s*(2020-s)
+
+print(twentytwentyagain(linpt))
