@@ -15,3 +15,16 @@ def twentytwenty(li):
 
 # part one answer 
 print(twentytwenty(linpt))
+
+def twentytwenty3(li):
+  for t in range(len(li)):
+    if li[t] < 2020:
+      for s in range(t,len(li)):
+        if li[t]+li[s] < 2020:
+          for r in range(s,len(li)):
+            if li[t]+li[s]+li[r] == 2020:
+              return li[s]*li[t]*li[r]
+
+
+# part two answer 
+print(twentytwenty3(linpt))
