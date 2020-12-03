@@ -4,7 +4,7 @@ f.close()
 linp = inp.split('\n')
 
 
-def extend(matr):
+def extend(matr,x=1):
   lenx = len(matr[0])
   leny = len(matr)
   while lenx<=leny:
@@ -26,4 +26,5 @@ def pathe(matr,mx,my):
     v.append(matr[pos[1]][pos[0]])
   return v 
 
-#print(pathe(extend(linp),1,3))
+inxt = extend(linp)
+print(pathe(inxt,3,1)))
