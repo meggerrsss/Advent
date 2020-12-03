@@ -3,6 +3,7 @@ inp = f.read()
 f.close() 
 linp = inp.split('\n')
 
+import math 
 
 def extend(matr,x=1):
   lenx = len(matr[0])
@@ -14,9 +15,9 @@ def extend(matr,x=1):
     print(matr)
   return matr
 
-print(extend(linp))
+#print(extend(linp))
 
-def pathe(matr,mx,my):
+def pathe1(matr,mx,my):
   pos = (0,0)
   leny = len(matr)
   v = [matr[0][0]]
@@ -26,5 +27,28 @@ def pathe(matr,mx,my):
     v.append(matr[pos[1]][pos[0]])
   return v 
 
-inxt = extend(linp)
-print(pathe(inxt,3,1)))
+#inxt = extend(linp)
+
+def convert(vec):
+  v = [0] * len(vec)
+  for s in range(len(vec)):
+    if vec[s] != "." :   #idk how to find hashtags
+      v[s] = 1
+  return v
+
+def pathe(matr,mx,my,star=[0,0]):
+  v = list(matr[0][0])
+  pos = star
+  lenx = len(matr[0])
+  leny = len(matr)
+  for j in range(math.ceil(leny/my)):
+    pos = [(pos[0]+mx) % lenx,(pos[1]+my) % leny]
+    print(pos)
+    v.append(matr[pos[1]][pos[0]])
+  return v
+
+print(pathe(linp,3,1))
+
+#number of trees hit (tree = #)
+print(convert(pathe(linp,3,1)))
+
