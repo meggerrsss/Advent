@@ -37,6 +37,15 @@ def people(li):
   s = [dictify(x) for x in li]
   return s
 
+def validheight(st):
+  units = st[-2:]
+  value = int(st[:-2])    
+  if units == 'cm' and value >=150 and value <= 193:
+    return True 
+  elif units == 'in' and value >=59 and value <= 76:
+    return True 
+  else: return False
+
 colorkey = ['a','b','c','d','e','f','0','1','2','3','4','5','6','7','8','9']
 def validcolour(st):
   coldig = [x in colorkey for x in st[1:]]
@@ -56,12 +65,7 @@ def extravalid(person, need = needed): #a person is a dictionary
   if 'eyr' in person.keys():
      x[2] = int(person['eyr']) in range(2020,2031)
   if 'hgt' in person.keys():
-    units = person['hgt'][-2:]
-    value = int(person['hgt'][:-2])
-    if units == 'cm' and value >=150 and value <= 193:
-      x[3] = True 
-    elif units == 'in' and value >=59 and value <= 76:
-      x[3] = True 
+    x[3] = validheight(person['hgt'])
   if 'hcl' in person.keys():
     x[4] = validcolour(person['hcl'])
   if 'ecl' in person.keys():
@@ -78,7 +82,3 @@ for elf in linp:
   elf = dictify(elf)
   if extravalid(elf): c+=1 
 print(c)
-
-
-print(linp[1])
-print(extravalid(dictify(linp[1])))
