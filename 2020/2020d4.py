@@ -15,12 +15,10 @@ def countvalues(st,need = needed): # how many necessary values are in the string
   v = [inn(st,k) for k in need]
   return sum(v)
 
-print(countvalues(linp[0]))
-
-counter = 0
-for person in linp:
-  print(person)
-  print(countvalues(person))
-  if countvalues(person) == len(needed):
-    counter += 1
-print(counter)
+def numvalid(li):
+  counter = 0
+  for person in li:
+    if countvalues(person) == len(needed):
+      counter += 1
+  return counter
+print(numvalid(linp))
