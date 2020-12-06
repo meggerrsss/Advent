@@ -70,12 +70,56 @@ def seatid(st, deb = False):
   row = rown(st, deb)
   seat = seatn(st,deb)
   if deb: print(row,seat)
-  return row * 8 + seat 
+  return (row, seat, row * 8 + seat)
 
-print(seatid("BBBBFFBRRL",True)) #974
+#print(seatid("BBBBFFBRRL")) #974
 
-saved = 0 
-for person in linp:
-  s = seatid(person)
-  if s > saved: saved = s
-print(saved)
+#saved = 0 
+#for person in linp:
+#  s = seatid(person)[2]
+#  if s > saved: saved = s
+#print(saved)
+
+# part two?
+def pairs(li): #processing the people into pairs of (row, seat)
+  s = [(seatid(person)[0], seatid(person)[1]) for person in li]
+  return s 
+
+#print(pairs(linp))
+# eh i'm doing this manually now
+def whereami(li):
+  v = [0] * 128
+  myrow = set()
+  for person in li:
+    row = person[0]
+    v[row]+=1
+  for i in range(len(v)):
+    if v[i]>0 and v[i]<8: 
+      myrow.add(i)
+  myrow.remove(max(myrow))
+  myrow.remove(min(myrow))
+  myrow = next(iter(myrow)) #pop out only element left in set
+  v = [0] * 8
+  for i in range(0,8):
+    if (myrow,i) not in li:
+      return (myrow,i)
+  print(myrow)
+
+print(80*8+6)
+
+print(whereami(pairs(linp)))
+
+
+
+
+
+
+
+
+
+
+#possibles = [0]*128*8
+#for i in range(0,128):
+#  for j in range(0,8):
+#    possibles[i*8+j] = i*8+j
+#print(possibles)
