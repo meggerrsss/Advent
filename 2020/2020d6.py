@@ -19,7 +19,6 @@ def tosetpart2(li):
     setted[x] = set(splitfirst[0])
     for y in splitfirst:
       setted[x] = setted[x].intersection(y)
-    numpeep = li[x].count('\n')+1
   return setted
 
 
