@@ -61,13 +61,13 @@ def seatn(st):   #st is FBFBBFFRLR
 def seatid(st):
   row = rown(st)
   seat = seatn(st)
+  print(row,seat)
   return row * 8 + seat 
 
+print(seatid("BFFFBBFRRR"))
 
-print(linp)
-
-saved = 0 
-for person in linp:
-  s = seatid(person)
-  if s > saved: saved = s
-print(saved)
+#saved = 0 
+#for person in linp:
+#  s = seatid(person)
+#  if s > saved: saved = s
+#print(saved)
