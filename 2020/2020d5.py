@@ -8,16 +8,16 @@ example = "FBFBBFFRLR"
 
 def rown(st,deb = False):   #st is FBFBBFFRLR
   st = st[0:7]
-  if deb: print("starting sequence: ",st )
   rang = range(0,128)
+  if deb: print("starting sequence: ",st , ", range: ", rang)
   while len(st) > 0:
     currentletter = st[0]
     if st == "F":
-      if deb: print("letter: ",st,", range: ", rang, ", final: ", min(rang))
+      if deb: print("letter: ",st,", final: ", min(rang))
       return min(rang)
     if st == "B":
-      if deb: print("letter: ",st,", range: ", rang, ", final: ", max(rang)-1)
-      return max(rang)-1
+      if deb: print("letter: ",st,", final: ", max(rang))
+      return max(rang)
     if st == "":
       return rang
     if currentletter == "F":
@@ -38,15 +38,15 @@ def rown(st,deb = False):   #st is FBFBBFFRLR
 
 def seatn(st, deb = False):   #st is FBFBBFFRLR
   st = st[7:]
-  if deb: print("starting sequence: ",st )
   rang = range(0,8)
+  if deb: print("starting sequence: ",st , ", range: ", rang)
   while len(st) > 0:
     currentletter = st[0]
     if st == "L":
-      if deb: print("letter: ",st,", range: ", rang, ", final: ", min(rang))
+      if deb: print("letter: ",st,", final: ", min(rang))
       return min(rang)
     if st == "R":
-      if deb: print("letter: ",st,", range: ", rang, ", final: ", max(rang))
+      if deb: print("letter: ",st,", final: ", max(rang))
       return max(rang)
     if st == "":
       return rang
@@ -72,7 +72,7 @@ def seatid(st, deb = False):
   if deb: print(row,seat)
   return row * 8 + seat 
 
-print(seatid("BBFFBBFRLL",True))
+print(seatid("BBBBFFBRRL",True)) #974
 
 saved = 0 
 for person in linp:
