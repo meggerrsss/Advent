@@ -11,17 +11,29 @@ def rown(st):   #st is FBFBBFFRLR
   print(rang)
   while len(st) > 0:
     currentletter = st[0]
+    if st == "F":
+      return min(rang)
+    if st == "B":
+      return max(rang)
     if st == "":
       return rang
     if currentletter == "F":
-      spread = int(len(rang)/2)
-      rang = range(rang[0],rang[spread])
+      spread = int((max(rang)-min(rang)+1)/2)
+      print(spread)
+      newlow = min(rang)
+      newhigh = max(rang) - spread
+      rang = range(newlow,newhigh+1)
       st = st[1:]
+      print(st)
       print(rang)
     if currentletter == "B":
-      spread = int(len(rang)/2)
-      rang = range(rang[0]+spread, rang[len(rang)-1])
+      spread = int((max(rang)-min(rang)+1)/2)
+      print(spread)
+      newlow = min(rang) + spread
+      newhigh = max(rang)
+      rang = range(newlow,newhigh+1)
       st = st[1:]
+      print(st)
       print(rang)
   return rang
 
