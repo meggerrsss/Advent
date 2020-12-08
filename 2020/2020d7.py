@@ -29,8 +29,45 @@ def stringtoset(st):
   return d
 
 
-#print(linp)
-ex = [stringtoset(i) for i in lex]
-full = [stringtoset(linp[i]) for i in range(len(linp))]
-pprint.pprint(ex)
+def flattendict(di):
+  return {k: v for d in di for k, v in d.items()}
 
+
+def allcolours(lod): #list of dicts as in output of flattendict(stringtoset(thing))
+  return lod.keys()
+
+
+def flip(contains):
+  contained = {}
+  for key in contains:
+    for value in contains[key]:
+      if value[1] in contained:
+        contained[value[1]].append((key,value[0]))
+      else:
+        contained[value[1]] = [(key,value[0])]
+  return contained 
+
+
+
+  
+#mybag = "shiny gold"
+
+#def isoutermybag(colour,mycolour):
+  # is the colour able to contain my colour 
+
+
+
+
+
+
+workingwith = "example"
+if workingwith == "example": 
+  a = lex
+elif workingwith == "full": 
+  a = linp
+b = [stringtoset(i) for i in a]
+containes = flattendict(b) 
+contained = flip(containes)
+pprint.pprint(containes)
+print("\n\n")
+pprint.pprint(contained)
