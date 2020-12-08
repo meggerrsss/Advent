@@ -48,26 +48,21 @@ def flip(contains):
   return contained 
 
 
-
-  
-#mybag = "shiny gold"
-
-#def isoutermybag(colour,mycolour):
-  # is the colour able to contain my colour 
+def unpeel(containeddict,mycol): # needs an output processed by flip 
+  try: firstlayer = containeddict[mycol]
+  except: firstlayer = "is outest layer"
+  return firstlayer
 
 
 
-
-
-
+# print processing
+mybag = "light white"
 workingwith = "example"
-if workingwith == "example": 
-  a = lex
-elif workingwith == "full": 
-  a = linp
+if workingwith == "example": a = lex
+elif workingwith == "full": a = linp
 b = [stringtoset(i) for i in a]
 containes = flattendict(b) 
 contained = flip(containes)
-pprint.pprint(containes)
-print("\n\n")
-pprint.pprint(contained)
+final = unpeel(contained,mybag)
+
+print(final)
