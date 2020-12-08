@@ -9,10 +9,12 @@ faded blue bags contain no other bags.
 dotted black bags contain no other bags."""
 lex = example.split('\n')
 
+import pprint 
+
 f = open('2020/inputs/2020d7input.txt', 'r')
 inp = f.read()
 f.close() 
-linp = inp.split('\n')
+linp = inp.split('\n')[:-1]
 
 def stringtoset(st):
   lis = st.replace(",","").replace(".","").replace("bags","bag").replace("contain",":").split(" ")
@@ -26,4 +28,9 @@ def stringtoset(st):
     d[colour][i] = itersave
   return d
 
-print(stringtoset(lex[0]))
+
+#print(linp)
+ex = [stringtoset(i) for i in lex]
+full = [stringtoset(linp[i]) for i in range(len(linp))]
+pprint.pprint(ex)
+
