@@ -48,21 +48,43 @@ def flip(contains):
   return contained 
 
 
-def unpeel(containeddict,mycol): # needs an output processed by flip 
+def unpeelonce(containeddict,mycol): # needs an output processed by flip 
   try: firstlayer = containeddict[mycol]
   except: firstlayer = "is outest layer"
   return firstlayer
 
+#this is so broken lol
+def iterateunpeel(containeddict,mycol):
+  listofouter = []
+  todo = [mycol]
+  while len(todo)>0:
+    if type(todo[0]) == type([0]):
+      col = todo[0].pop()
+    elif todo[0] == "":
+      todo = todo[1:]
+      col = todo.pop()
+    else: col = todo.pop()
+    if unpeelonce(containeddict,col) == "is outest layer":
+      return listofouter
+    print("colour",col)
+    listofouter.append(unpeelonce(containeddict,mycol))
+    print("collected list",listofouter)
+    x = [unpeelonce(containeddict,col)[t][0] for t in range(len(unpeelonce(containeddict,col)))]
+    print("x",x)
+    todo.append(x)
+    print("todo",todo)
+    print("next\n")
+  return listofouter
 
 
 # print processing
-mybag = "light white"
+mybag = "shiny gold"
 workingwith = "example"
 if workingwith == "example": a = lex
 elif workingwith == "full": a = linp
 b = [stringtoset(i) for i in a]
 containes = flattendict(b) 
 contained = flip(containes)
-final = unpeel(contained,mybag)
+final = iterateunpeel(contained,mybag)
 
 print(final)
