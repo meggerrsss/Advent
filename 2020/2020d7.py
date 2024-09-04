@@ -85,6 +85,6 @@ elif workingwith == "full": a = linp
 b = [stringtoset(i) for i in a]
 containes = flattendict(b) 
 contained = flip(containes)
-final = iterateunpeel(contained,mybag)
+final = unpeelonce(contained,mybag)
 
 print(final)
